@@ -75,7 +75,7 @@ Configuração: ${bedrooms} quartos, ${bathrooms} banheiros e ${area}.`;
 
         <p className="text-sm text-muted-foreground mt-3">{location}</p>
 
-        <Button
+        {/* <Button
           onClick={(e) => {
             e.stopPropagation();
             handleWhatsAppClick();
@@ -84,7 +84,7 @@ Configuração: ${bedrooms} quartos, ${bathrooms} banheiros e ${area}.`;
         >
           <FaWhatsapp className="h-4 w-4" />
           Saiba mais
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

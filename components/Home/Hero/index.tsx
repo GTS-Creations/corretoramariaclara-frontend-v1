@@ -1,101 +1,144 @@
 import Image from "next/image";
 import image from "@/public/hero.png";
-import { Award, Handshake, Tag, UserCheck } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 
 export default function HomeHero() {
-  const stats = [
-    {
-      icon: <Award className="w-8 h-8 text-red-400" />,
-      value: "+[X]",
-      label: "anos de experiência",
-    },
-    {
-      icon: <Handshake className="w-8 h-8 text-red-400" />,
-      value: "+[X]",
-      label: "negócios realizados",
-    },
-    {
-      icon: <Tag className="w-8 h-8 text-red-400" />,
-      value: "100%",
-      label: "clientes satisfeitos",
-    },
-    {
-      icon: <UserCheck className="w-8 h-8 text-red-400" />,
-      value: "100%",
-      label: "Atendimento Personalizado",
-    },
-  ];
-
   return (
-    <section className="w-full bg-white max-w-7xl mx-auto">
-      <div className="relative md:grid md:grid-cols-12 w-full shadow-lg transition-shadow rounded-b-md">
-        <div className="absolute inset-0 md:relative md:col-span-3 md:h-full z-0 overflow-hidden rounded-b-md md:rounded-br-none">
-          <Image
-            src={image}
-            alt="Corretora"
-            fill
-            className="object-cover object-top rounded-b-md md:rounded-br-none"
-            priority
-          />
-
-          <div className="absolute inset-0 bg-black/60 md:hidden" />
-        </div>
-
-        <div className="relative md:col-span-9 flex items-center md:bg-gray-50 h-full md:rounded-br-md">
-          <div className="hidden md:block absolute inset-0 z-0">
+    <section className="w-full bg-white mx-auto">
+      <div className="relative w-full shadow-lg transition-shadow rounded-b-md">
+        <div className="relative flex items-center justify-center min-h-125 md:h-125 overflow-hidden">
+          <div className="absolute inset-0 z-0">
             <Image
               src={image}
               alt="Interior de imóvel luxuoso"
               fill
-              className="object-cover md:rounded-br-md"
+              priority
+              className="object-cover"
             />
-
-            <div className="absolute inset-0 bg-white/20 md:bg-transparent md:bg-linear-to-r md:from-white/30 md:to-transparent" />
+            <div className="absolute inset-0 bg-black/40 md:bg-black/30" />
           </div>
 
-          <div className="relative z-10 px-6 md:px-16 max-w-2xl pb-12 pt-60 md:pt-12">
-            <span className="text-red-400 font-bold uppercase tracking-wider text-sm">
-              Especialista em Imóveis
-            </span>
-            <h1 className="md:mt-4 text-2xl md:text-5xl font-extrabold text-white md:text-slate-900 leading-tight">
-              Comprometida em realizar bons negócios e realizar sonhos.
-            </h1>
-            <p className="md:mt-6 md:text-lg text-gray-100 md:text-slate-600 leading-relaxed">
-              Atendimento personalizado para te ajudar a comprar, vender ou
-              alugar com segurança e tranquilidade.
-            </p>
-          </div>
-        </div>
-      </div>
+          <div className="relative z-10 px-6 max-w-5xl w-full flex flex-col items-center pt-20 pb-12">
+            <div className="text-center space-y-4 mb-10">
+              <h1 className="text-4xl md:text-6xl text-shadow-sm font-extralight font-serif text-white leading-tight">
+                Encontre o seu imóvel perfeito.
+              </h1>
+              <p className="text-lg md:text-xl text-white/90 font-serif leading-relaxed italic">
+                Buscou, encontrou, se mudou. Sem burocracias.
+              </p>
+            </div>
 
-      <div className="container mx-auto px-6 py-8 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
-              Sobre a corretora
-            </h2>
-            <p className="text-slate-600 leading-relaxed">
-              Olá! Sou Maria Clara, especialista no mercado imobiliário com anos
-              de experiência na região. Meu compromisso é oferecer um
-              atendimento transparente, ético e focado nas suas necessidades.
-            </p>
-          </div>
+            <div className="w-full p-3 md:p-4 bg-white rounded-2xl shadow-2xl border border-slate-100">
+              <div className="flex flex-col md:flex-row items-end gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                  <div className="flex flex-col space-y-1.5 text-left">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-3">
+                      Pretenção
+                    </label>
+                    <Select>
+                      <SelectTrigger className="w-full border-none shadow-none focus:ring-0 text-slate-700 font-medium bg-slate-50/80 hover:bg-slate-100 transition-all rounded-xl gap-3 h-12 px-4 cursor-pointer">
+                        <SelectValue placeholder="Selecione o tipo" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-100 shadow-2xl p-2">
+                        <SelectItem
+                          value="comprar"
+                          className="rounded-lg focus:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Comprar
+                        </SelectItem>
+                        <SelectItem
+                          value="alugar"
+                          className="rounded-lg focus:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Alugar
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-          <div className="grid grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-center text-center"
-              >
-                <div className="mb-3">{stat.icon}</div>
-                <span className="md:text-xl font-bold text-slate-900">
-                  {stat.value}
-                </span>
-                <span className="text-xs text-slate-500 uppercase font-medium mt-1">
-                  {stat.label}
-                </span>
+                  <div className="flex flex-col space-y-1.5 text-left md:border-l md:border-slate-100 md:pl-4">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-3">
+                      Tipo de Imóvel
+                    </label>
+                    <Select>
+                      <SelectTrigger className="w-full border-none shadow-none focus:ring-0 text-slate-700 font-medium bg-slate-50/80 hover:bg-slate-100 transition-all rounded-xl gap-3 h-12 px-4 cursor-pointer">
+                        <SelectValue placeholder="O que deseja?" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-100 shadow-2xl p-2">
+                        <SelectItem
+                          value="casa"
+                          className="rounded-lg focus:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Casa
+                        </SelectItem>
+                        <SelectItem
+                          value="apartamento"
+                          className="rounded-lg focus:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Apartamento
+                        </SelectItem>
+                        <SelectItem
+                          value="terreno"
+                          className="rounded-lg focus:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Terreno
+                        </SelectItem>
+                        <SelectItem
+                          value="kitnet"
+                          className="rounded-lg focus:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Kitnet
+                        </SelectItem>
+                        <SelectItem
+                          value="comercial"
+                          className="rounded-lg focus:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Comercial
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="flex flex-col space-y-1.5 text-left md:border-l md:border-slate-100 md:pl-4">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-3">
+                      Localização
+                    </label>
+                    <Select>
+                      <SelectTrigger className="w-full border-none shadow-none focus:ring-0 text-slate-700 font-medium bg-slate-50/80 hover:bg-slate-100 transition-all rounded-xl gap-3 h-12 px-4 cursor-pointer">
+                        <SelectValue placeholder="Onde?" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-100 shadow-2xl p-2">
+                        <SelectItem
+                          value="centro"
+                          className="rounded-lg focus:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Centro
+                        </SelectItem>
+                        <SelectItem
+                          value="jardins"
+                          className="rounded-lg focus:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Jardins
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <Button className="w-full md:w-auto bg-red-500 hover:bg-red-600 text-white px-10 h-12 rounded-xl shadow-lg shadow-red-200 transition-all active:scale-95 font-bold cursor-pointer hover:scale-105">
+                  <Search className="mr-2 h-4 w-4" />
+                  BUSCAR
+                </Button>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>

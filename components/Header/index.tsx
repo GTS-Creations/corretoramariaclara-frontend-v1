@@ -44,8 +44,11 @@ export const NavLink: React.FC<NavbarProps> = ({
 };
 
 const navigation = [
-  { name: "Início", href: "/" },
-  { name: "Imóveis", href: "/imoveis" },
+  { name: "Encontre seu Imóvel", href: "/" },
+  {
+    name: "Entenda Sobre o Financiamento",
+    href: "/entenda-sobre-o-financiamento",
+  },
 ];
 
 export default function Header() {
@@ -53,7 +56,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur supports-backdrop-filter:bg-card/80 border-b border-border">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 xl:px-0 py-4">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 xl:px-0 py-4 font-serif">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200">
             <Image
@@ -87,7 +90,7 @@ export default function Header() {
             rel="noopener noreferrer"
           >
             <Button className="bg-gray-800 hover:bg-red-500 transition-colors cursor-pointer rounded-full px-6 py-5">
-              Fale com a corretora
+              Anuncie Aqui
               <MessagesSquare className="ml-1" />
             </Button>
           </Link>
@@ -116,7 +119,7 @@ export default function Header() {
       </nav>
 
       {mobileMenuOpen && (
-        <div className="lg:hidden animate-in slide-in-from-top-2 duration-200">
+        <div className="lg:hidden animate-in slide-in-from-top-2 duration-200 font-serif">
           <div className="space-y-1 px-4 pb-6 pt-2 border-t border-border bg-card">
             {navigation.map((item) => (
               <NavLink
@@ -135,7 +138,7 @@ export default function Header() {
                 rel="noopener noreferrer"
               >
                 <Button className="w-full bg-gray-800 hover:bg-red-500 transition-colors cursor-pointer rounded-full py-6 text-base">
-                  Fale com a corretora
+                  Anuncie Aqui
                   <MessagesSquare className="ml-1" />
                 </Button>
               </Link>

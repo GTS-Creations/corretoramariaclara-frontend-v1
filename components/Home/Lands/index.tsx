@@ -53,12 +53,12 @@ const properties = [
   },
 ];
 
-export default function HomeProperties() {
+export default function HomeLands() {
   return (
-    <section id="imoveis" className="py-16">
+    <section id="imoveis" className="py-16 bg-muted/50">
       <div className="mx-auto max-w-7xl px-4 xl:px-0">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-extralight">Imóveis em destaque</h2>
+          <h2 className="text-2xl font-extralight">Terrenos em destaque</h2>
           <Link
             href="/imoveis"
             className="flex items-center gap-1 text-sm font-extralight border-red-500 border px-4 py-2 rounded text-red-500 hover:scale-105 transition-transform"
