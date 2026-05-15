@@ -75,7 +75,9 @@ export default function HomeLands() {
           }}
           plugins={[
             Autoplay({
-              delay: 2000,
+              delay: 4000,
+              stopOnInteraction: false,
+              stopOnMouseEnter: false,
             }),
           ]}
           className="w-full"

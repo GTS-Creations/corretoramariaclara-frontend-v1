@@ -75,7 +75,9 @@ export default function HomeProperties() {
           }}
           plugins={[
             Autoplay({
-              delay: 2000,
+              delay: 5000,
+              stopOnInteraction: false,
+              stopOnMouseEnter: false,
             }),
           ]}
           className="w-full"

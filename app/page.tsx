@@ -6,6 +6,7 @@ import HomeHero from "@/components/Home/Hero";
 import HomeLands from "@/components/Home/Lands";
 import HomeProperties from "@/components/Home/Properties";
 import HomeRentals from "@/components/Home/Rentals";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <HomeCTA />
       <Footer />
       <GTS />
+      <WhatsAppButton />
     </>
   );
 }

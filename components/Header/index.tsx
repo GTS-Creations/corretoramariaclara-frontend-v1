@@ -85,7 +85,7 @@ export default function Header() {
 
         <div className="hidden lg:flex">
           <Link
-            href="https://wa.me/5587999380401"
+            href="https://wa.me/5587999380401?text=Olá! Gostaria de saber como faço para indicar meu imóvel."
             target="_blank"
             rel="noopener noreferrer"
           >

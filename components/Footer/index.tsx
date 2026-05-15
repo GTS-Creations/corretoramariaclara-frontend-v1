@@ -4,10 +4,8 @@ import logo from "@/public/logo.jpeg";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const navigation = [
-  { name: "Início", href: "/" },
-  { name: "Imóveis", href: "/imoveis" },
-  { name: "Sobre", href: "/sobre" },
-  { name: "Contato", href: "/contatos" },
+  { name: "Encontre seu Imóvel", href: "/" },
+  { name: "Sobre Financiamento", href: "/entenda-sobre-o-financiamento" },
 ];
 
 export default function Footer() {

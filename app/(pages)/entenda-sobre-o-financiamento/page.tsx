@@ -15,6 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 export default function PaginaFinanciamento() {
   return (
@@ -126,7 +127,7 @@ export default function PaginaFinanciamento() {
 
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-left font-semibold">
+              <AccordionTrigger className="text-left font-semibold cursor-pointer">
                 Posso usar o FGTS no financiamento?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
@@ -137,7 +138,7 @@ export default function PaginaFinanciamento() {
             </AccordionItem>
 
             <AccordionItem value="item-2">
-              <AccordionTrigger className="text-left font-semibold">
+              <AccordionTrigger className="text-left font-semibold cursor-pointer">
                 Qual a diferença entre SAC e PRICE?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
@@ -148,7 +149,7 @@ export default function PaginaFinanciamento() {
             </AccordionItem>
 
             <AccordionItem value="item-3">
-              <AccordionTrigger className="text-left font-semibold">
+              <AccordionTrigger className="text-left font-semibold cursor-pointer">
                 Qual o valor máximo que posso comprometer da minha renda?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
@@ -172,21 +173,20 @@ export default function PaginaFinanciamento() {
               personalizada para você sem custo algum.
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                variant="secondary"
-                className="text-red-500 font-bold h-14 px-8 rounded-full hover:bg-white"
+              <Link
+                href="https://wa.me/5587999380401?text=Olá! Gostaria de saber como simular o financiamento"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Falar com Consultor
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button
-                size="lg"
-                className="bg-transparent border-2 border-white hover:bg-white/10 text-white font-bold h-14 px-8 rounded-full"
-              >
-                <Calculator className="mr-2 h-5 w-5" />
-                Simular Agora
-              </Button>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="text-red-500 font-bold h-14 px-8 rounded-full hover:bg-white cursor-pointer"
+                >
+                  <Calculator className="mr-2 h-5 w-5" />
+                  Simular Agora
+                </Button>
+              </Link>
             </div>
           </div>
           {/* Decoração abstrata */}

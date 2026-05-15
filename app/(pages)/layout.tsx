@@ -3,6 +3,7 @@ import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GTS from "@/components/GTS";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function RootLayout({
   children,
@@ -17,6 +18,7 @@ export default function RootLayout({
 
       <Footer />
       <GTS />
+      <WhatsAppButton />
     </div>
   );
 }

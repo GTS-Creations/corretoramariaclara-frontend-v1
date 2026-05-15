@@ -75,7 +75,9 @@ export default function HomeRentals() {
           }}
           plugins={[
             Autoplay({
-              delay: 2000,
+              delay: 4000,
+              stopOnInteraction: false,
+              stopOnMouseEnter: false,
             }),
           ]}
           className="w-full"
@@ -86,9 +88,11 @@ export default function HomeRentals() {
                 key={index}
                 className="pl-4 basis-1/1 md:basis-1/2 lg:basis-1/4"
               >
-                <div>
-                  <PropertyCard {...property} />
-                </div>
+                <Link href={`/imovel/aa`} className="block h-full">
+                  <div className="transition-transform hover:scale-[1.02] cursor-pointer">
+                    <PropertyCard {...property} />
+                  </div>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>
