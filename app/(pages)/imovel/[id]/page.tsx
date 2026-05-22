@@ -161,8 +161,8 @@ Configuração: ${property.bedrooms} quartos, ${property.bathrooms} banheiros e 
             <CardContent className="p-4 flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-slate-200 overflow-hidden">
                 <img
-                  src="/corretor.jpg"
-                  alt="Corretor"
+                  src="/perfil.png"
+                  alt="Maria Clara"
                   className="object-cover"
                 />
               </div>

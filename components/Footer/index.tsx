@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@/public/footer.png";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const navigation = [
@@ -17,9 +16,11 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg">
                 <Image
-                  src={logo}
+                  src="/footer.png"
                   alt="Logo Maria Clara Corretora"
                   className="rounded-lg bg-white p-0.5 object-contain object-center w-full h-full"
+                  width={50}
+                  height={50}
                 />
               </div>
               <div className="flex flex-col">

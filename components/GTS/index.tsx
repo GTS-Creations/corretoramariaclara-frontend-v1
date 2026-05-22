@@ -1,5 +1,4 @@
 import Image from "next/image";
-import gts from "@/public/gts.png";
 import Link from "next/link";
 
 export default function GTS() {
@@ -12,7 +11,7 @@ export default function GTS() {
         rel="noopener noreferrer"
         className="cursor-pointer"
       >
-        <Image src={gts} alt="logo" width={100} />
+        <Image src="/gts.png" alt="logo" width={100} height={50} />
       </Link>
     </div>
   );

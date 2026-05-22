@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, MessagesSquare, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import logo from "@/public/logo.png";
 import Image from "next/image";
 
 interface NavbarProps {
@@ -59,10 +58,11 @@ export default function Header() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 xl:px-0 py-4 font-serif">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src={logo}
+            src="/logo.png"
             alt="Logo Maria Clara Corretora"
             className="rounded-lg"
             width={130}
+            height={50}
             priority
           />
         </Link>

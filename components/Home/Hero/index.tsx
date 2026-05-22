@@ -1,5 +1,4 @@
 import Image from "next/image";
-import image from "@/public/banner.png";
 import {
   Select,
   SelectContent,
@@ -17,11 +16,11 @@ export default function HomeHero() {
         <div className="relative flex items-center justify-center min-h-125 md:h-125 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <Image
-              src={image}
+              src="/banner.jpg"
               alt="Interior de imóvel luxuoso"
               fill
               priority
-              className="object-cover"
+              className="object-cover object-center"
             />
             <div className="absolute inset-0 bg-black/40 md:bg-black/30" />
           </div>
