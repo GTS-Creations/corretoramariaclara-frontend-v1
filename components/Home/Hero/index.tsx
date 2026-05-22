@@ -1,5 +1,5 @@
 import Image from "next/image";
-import image from "@/public/hero.png";
+import image from "@/public/banner.png";
 import {
   Select,
   SelectContent,

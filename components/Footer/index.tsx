@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@/public/logo.jpeg";
+import logo from "@/public/footer.png";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const navigation = [
@@ -19,7 +19,7 @@ export default function Footer() {
                 <Image
                   src={logo}
                   alt="Logo Maria Clara Corretora"
-                  className="rounded-lg"
+                  className="rounded-lg bg-white p-0.5 object-contain object-center w-full h-full"
                 />
               </div>
               <div className="flex flex-col">

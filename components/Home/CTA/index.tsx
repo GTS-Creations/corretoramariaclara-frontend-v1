@@ -1,5 +1,5 @@
 import Image from "next/image";
-import image from "@/public/hero.png";
+import image from "@/public/cta.png";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MessagesSquare } from "lucide-react";
@@ -13,8 +13,7 @@ export default function HomeCTA() {
             <Image
               src={image}
               alt="Corretora de imóveis"
-              fill
-              className="object-cover object-top"
+              className="object-center p-2 bg-white w-full h-full object-contain"
             />
           </div>
 

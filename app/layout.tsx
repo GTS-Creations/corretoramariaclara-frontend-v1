@@ -47,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`h-full antialiased`}>
+    <html lang="pt-br" className={`h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <TanstackQueryProvider>
           {children} <Toaster richColors position="top-right" />

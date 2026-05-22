@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, MessagesSquare, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import logo from "@/public/logo.jpeg";
+import logo from "@/public/logo.png";
 import Image from "next/image";
 
 interface NavbarProps {
@@ -58,21 +58,13 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur supports-backdrop-filter:bg-card/80 border-b border-border">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 xl:px-0 py-4 font-serif">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200">
-            <Image
-              src={logo}
-              alt="Logo Maria Clara Corretora"
-              className="rounded-lg"
-            />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-bold leading-tight uppercase tracking-wider">
-              Maria Clara
-            </span>
-            <span className="text-[10px] text-muted-foreground font-semibold leading-tight uppercase">
-              Corretora
-            </span>
-          </div>
+          <Image
+            src={logo}
+            alt="Logo Maria Clara Corretora"
+            className="rounded-lg"
+            width={130}
+            priority
+          />
         </Link>
 
         <div className="hidden lg:flex lg:gap-x-8">
