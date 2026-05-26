@@ -18,8 +18,7 @@ interface AdminSidebarProps {
   children: React.ReactNode;
 
   user: {
-    firstName: string;
-    lastName: string;
+    name: string;
   };
 }
 
@@ -46,18 +45,18 @@ export default function AdminSidebar({ children, user }: AdminSidebarProps) {
       )}
 
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-clara-tertiary shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-clara-primary shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between h-16 px-6 mt-4">
-          <Link href="/">
+        <div className="flex items-center justify-between h-16 mt-4">
+          <Link href="/" className="flex items-center ml-10">
             <Image src={logo} alt="logo" width={150} />
           </Link>
 
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-white hover:text-clara-secondary transition-colors"
+            className="lg:hidden text-clara-secondary hover:text-clara-tertiary transition-colors cursor-pointer mr-4"
           >
             <X className="w-5 h-5" />
           </button>
@@ -75,8 +74,8 @@ export default function AdminSidebar({ children, user }: AdminSidebarProps) {
                 href={item.href}
                 className={`flex items-center px-6 py-3 text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-clara-primary border-r-2 border-clara-secondary"
-                    : "hover:bg-clara-secondary"
+                    ? "bg-clara-tertiary text-white border-r-2 border-clara-secondary"
+                    : "hover:bg-clara-tertiary hover:text-white"
                 }`}
                 onClick={() => setSidebarOpen(false)}
               >
@@ -92,7 +91,7 @@ export default function AdminSidebar({ children, user }: AdminSidebarProps) {
           <form action={LogoutAdminService}>
             <Button
               type="submit"
-              className="w-full bg-clara-secondary hover:bg-clara-quaternary"
+              className="w-full bg-clara-secondary hover:bg-clara-quaternary cursor-pointer"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Sair
@@ -105,17 +104,14 @@ export default function AdminSidebar({ children, user }: AdminSidebarProps) {
         <header className="bg-clara-primary shadow-sm border-b h-16 flex items-center justify-between px-6 lg:justify-end">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden text-gray-500 hover:text-gray-700"
+            className="lg:hidden text-gray-500 hover:text-gray-700 cursor-pointer"
           >
             <Menu className="w-5 h-5" />
           </button>
 
           <div className="flex items-center space-x-4">
             <p>
-              Seja bem-vindo,{" "}
-              <strong>
-                {user?.firstName} {user?.lastName}
-              </strong>
+              Seja bem-vindo, <strong>{user?.name}</strong>
             </p>
           </div>
         </header>

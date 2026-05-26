@@ -5,29 +5,34 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 interface LoginData {
-  email: string;
-  password: string;
+  ADMIN_EMAIL: string;
+  ADMIN_PASSWORD: string;
 }
 
-export async function LoginAdminService({ email, password }: LoginData) {
+export async function LoginAdminService({
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+}: LoginData) {
   try {
-    const { access_token } = await apiRequest("/auth/login", {
+    const res = await apiRequest("/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD }),
     });
 
+    const { token, user } = res;
+
     const cookieStore = await cookies();
-    cookieStore.set("nextauth.token", access_token, {
+    cookieStore.set("nextauth.token", token, {
       maxAge: 60 * 60 * 24,
       path: "/",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     });
 
-    return access_token;
+    return { token, user };
   } catch (error: any) {
     throw error;
   }

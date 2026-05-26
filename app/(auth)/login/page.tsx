@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -73,12 +73,14 @@ export default function AdminLogin() {
                   type="email"
                   placeholder="Digite seu e-mail"
                   className="pl-10"
-                  {...register("email")}
+                  {...register("ADMIN_EMAIL")}
                 />
               </div>
 
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
+              {errors.ADMIN_EMAIL && (
+                <p className="text-sm text-red-500">
+                  {errors.ADMIN_EMAIL.message}
+                </p>
               )}
             </div>
 
@@ -91,7 +93,7 @@ export default function AdminLogin() {
                   type={showPassword ? "text" : "password"}
                   placeholder="Digite sua senha"
                   className="pl-10 pr-10"
-                  {...register("password")}
+                  {...register("ADMIN_PASSWORD")}
                 />
 
                 <button
@@ -107,9 +109,9 @@ export default function AdminLogin() {
                 </button>
               </div>
 
-              {errors.password && (
+              {errors.ADMIN_PASSWORD && (
                 <p className="text-sm text-red-500">
-                  {errors.password.message}
+                  {errors.ADMIN_PASSWORD.message}
                 </p>
               )}
             </div>

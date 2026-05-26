@@ -10,9 +10,9 @@ export default async function AdminLayout({
 }) {
   const user = await AuthMe();
 
-  // if (!user) {
-  //   redirect("/login");
-  // }
+  if (!user) {
+    redirect("/login");
+  }
 
   return <AdminSidebar user={user}>{children}</AdminSidebar>;
 }
