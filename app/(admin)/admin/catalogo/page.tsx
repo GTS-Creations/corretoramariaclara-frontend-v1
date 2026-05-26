@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -17,31 +16,29 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Eye, Pencil, Search, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import DialogStoreProperty from "@/components/Admin/Catalog/DialogStoreProperty";
 import { useFindAllProperties } from "@/hooks/usePropertyQuery";
+import DialogUpdateProperty from "@/components/Admin/Catalog/DialogUpdateProperty";
+import DialogDeleteProperty from "@/components/Admin/Catalog/DialogDeleteProperty";
 
-export default function Companies() {
-  const [detailCompanyId, setDetailCompanyId] = useState<string | null>(null);
-  const [editCompanyId, setEditCompanyId] = useState<string | null>(null);
-  const [deleteCompany, setDeleteCompany] = useState<{
+export default function Properties() {
+  const [updatePropertyId, setUpdatePropertyId] = useState<string | null>(null);
+  const [deleteProperty, setDeleteProperty] = useState<{
     id: string;
     name: string;
   } | null>(null);
 
   const [page, setPage] = useState(1);
-
   const limit = 10;
-
   const { data, isLoading, isFetching } = useFindAllProperties({
     page,
     limit,
   });
 
   const properties = data?.data;
-
   const total = data?.total ?? 0;
 
   const totalPages = Math.ceil(total / limit);
@@ -100,7 +97,6 @@ export default function Companies() {
                         <div className="flex justify-end gap-2">
                           <Skeleton className="h-8 w-8 rounded-md" />
                           <Skeleton className="h-8 w-8 rounded-md" />
-                          <Skeleton className="h-8 w-8 rounded-md" />
                         </div>
                       </TableCell>
                     </TableRow>
@@ -121,15 +117,7 @@ export default function Companies() {
                           <Button
                             variant="outline"
                             className="cursor-pointer"
-                            onClick={() => setDetailCompanyId(property.id)}
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-
-                          <Button
-                            variant="outline"
-                            className="cursor-pointer"
-                            onClick={() => setEditCompanyId(property.id)}
+                            onClick={() => setUpdatePropertyId(property.id)}
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
@@ -138,7 +126,7 @@ export default function Companies() {
                             variant="destructive"
                             className="cursor-pointer"
                             onClick={() =>
-                              setDeleteCompany({
+                              setDeleteProperty({
                                 id: property.id,
                                 name: property.name,
                               })
@@ -156,7 +144,7 @@ export default function Companies() {
                       colSpan={4}
                       className="text-center py-10 text-muted-foreground"
                     >
-                      Nenhuma empresa encontrada.
+                      Nenhum imóvel encontrado.
                     </TableCell>
                   </TableRow>
                 )}
@@ -190,42 +178,30 @@ export default function Companies() {
         </CardContent>
       </Card>
 
-      {/* {detailCompanyId && (
-        <DialogDetailCompany
-          id={detailCompanyId}
-          open={!!detailCompanyId}
+      {updatePropertyId && (
+        <DialogUpdateProperty
+          id={updatePropertyId}
+          open={!!updatePropertyId}
           onOpenChange={(open) => {
             if (!open) {
-              setDetailCompanyId(null);
+              setUpdatePropertyId(null);
             }
           }}
         />
       )}
 
-      {editCompanyId && (
-        <DialogEditCompany
-          id={editCompanyId}
-          open={!!editCompanyId}
+      {deleteProperty && (
+        <DialogDeleteProperty
+          id={deleteProperty.id}
+          name={deleteProperty.name}
+          open={!!deleteProperty}
           onOpenChange={(open) => {
             if (!open) {
-              setEditCompanyId(null);
+              setDeleteProperty(null);
             }
           }}
         />
       )}
-
-      {deleteCompany && (
-        <DialogDeleteCompany
-          id={deleteCompany.id}
-          name={deleteCompany.name}
-          open={!!deleteCompany}
-          onOpenChange={(open) => {
-            if (!open) {
-              setDeleteCompany(null);
-            }
-          }}
-        />
-      )} */}
     </div>
   );
 }

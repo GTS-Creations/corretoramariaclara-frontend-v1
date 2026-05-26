@@ -1,6 +1,5 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import { Button } from "../../../ui/button";
 import {
   Dialog,
@@ -8,19 +7,18 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../../../ui/dialog";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import z from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { storePropertySchema } from "@/schemas/property.schema";
-import { StoreProperty } from "@/services/catalog.service";
+import { updatePropertySchema } from "@/schemas/property.schema";
+import { UpdateProperty } from "@/services/catalog.service";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -31,13 +29,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useFindOneProperty } from "@/hooks/usePropertyQuery";
 
-type CreatePropertyFormInput = z.input<typeof storePropertySchema>;
-type CreatePropertyFormData = z.output<typeof storePropertySchema>;
+interface DialogEditCompanyProps {
+  id: string;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
-export default function DialogStoreProperty() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+type UpdatePropertyFormInput = z.input<typeof updatePropertySchema>;
+type UpdatePropertyFormData = z.output<typeof updatePropertySchema>;
 
+export default function DialogUpdateProperty({
+  id,
+  open,
+  onOpenChange,
+}: DialogEditCompanyProps) {
+  const [selectedPreviews, setSelectedPreviews] = useState<string[]>([]);
   const queryClient = useQueryClient();
 
   const {
@@ -47,8 +55,8 @@ export default function DialogStoreProperty() {
     watch,
     reset,
     formState: { errors },
-  } = useForm<CreatePropertyFormInput, any, CreatePropertyFormData>({
-    resolver: zodResolver(storePropertySchema),
+  } = useForm<UpdatePropertyFormInput, any, UpdatePropertyFormData>({
+    resolver: zodResolver(updatePropertySchema),
 
     defaultValues: {
       name: "",
@@ -66,29 +74,52 @@ export default function DialogStoreProperty() {
     },
   });
 
-  const resetForm = () => {
-    reset({
-      name: "",
-      value: "",
-      bedrooms: "",
-      bathrooms: "",
-      garage: "",
-      squareMeters: "",
-      location: "",
-      type: "",
-      purpose: "",
-      description: "",
-      canFinance: false,
-      images: undefined,
-    });
-  };
+  const { data, isLoading } = useFindOneProperty({
+    id,
+    enabled: open,
+  });
 
-  const createMutation = useMutation({
-    mutationFn: async (data: CreatePropertyFormData) => {
+  const watchedImages = watch("images");
+  useEffect(() => {
+    if (watchedImages && watchedImages.length > 0) {
+      const filesArray = Array.from(
+        (watchedImages as unknown as FileList) || [],
+      );
+      const objectUrls = filesArray.map((file) => URL.createObjectURL(file));
+
+      setSelectedPreviews(objectUrls);
+
+      return () => objectUrls.forEach((url) => URL.revokeObjectURL(url));
+    } else {
+      setSelectedPreviews([]);
+    }
+  }, [watchedImages]);
+
+  useEffect(() => {
+    if (data) {
+      reset({
+        name: data.name || "",
+        value: data.value.toString() || "",
+        bedrooms: data.bedrooms.toString() || "",
+        bathrooms: data.bathrooms.toString() || "",
+        garage: data.garage.toString() || "",
+        squareMeters: data.squareMeters.toString() || "",
+        location: data.location || "",
+        type: data.type || "",
+        purpose: data.purpose || "",
+        description: data.description || "",
+        canFinance: data.canFinance || false,
+        images: undefined,
+      });
+    }
+  }, [data, reset]);
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: UpdatePropertyFormData) => {
       const formData = new FormData();
 
       formData.append("name", data.name);
-      formData.append("value", data.value);
+      formData.append("value", data.value || "0");
       formData.append("bedrooms", data.bedrooms || "0");
       formData.append("bathrooms", data.bathrooms || "0");
       formData.append("garage", data.garage || "0");
@@ -110,49 +141,37 @@ export default function DialogStoreProperty() {
         }
       }
 
-      return await StoreProperty(formData);
+      return await UpdateProperty(id, formData);
     },
 
     onSuccess: () => {
-      toast.success("Imóvel criado com sucesso");
+      toast.success("Imóvel atualizado com sucesso");
       queryClient.invalidateQueries({
         queryKey: ["properties"],
       });
-      resetForm();
-      setIsDialogOpen(false);
+      queryClient.invalidateQueries({
+        queryKey: ["property", id],
+      });
+
+      onOpenChange(false);
     },
 
     onError: () => {
-      toast.error("Erro ao criar imóvel");
+      toast.error("Erro ao atualizar imóvel");
     },
   });
 
-  const onSubmit = (data: CreatePropertyFormData) => {
-    createMutation.mutate(data);
+  const onSubmit = (data: UpdatePropertyFormData) => {
+    updateMutation.mutate(data);
   };
 
   return (
-    <Dialog
-      open={isDialogOpen}
-      onOpenChange={(open) => {
-        setIsDialogOpen(open);
-
-        if (!open) {
-          resetForm();
-        }
-      }}
-    >
-      <DialogTrigger asChild>
-        <Button className="bg-white hover:bg-gray-200 px-6 py-3 cursor-pointer text-black border border-gray-300">
-          <Plus className="w-5 h-5 mr-2" />
-          Adicionar Imóvel
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Adicionar Imóvel</DialogTitle>
+          <DialogTitle>Atualizar Imóvel</DialogTitle>
           <DialogDescription>
-            Preencha os dados do imóvel para adicioná-lo ao catálogo.
+            Preencha os dados do imóvel para atualizá-lo no catálogo.
           </DialogDescription>
         </DialogHeader>
 
@@ -352,8 +371,65 @@ export default function DialogStoreProperty() {
               {...register("images")}
               className="cursor-pointer"
             />
-            {errors.images && (
-              <p className="text-sm text-red-500">{errors.images.message}</p>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Imagens do Imóvel</Label>
+
+            {selectedPreviews.length > 0 ? (
+              <div>
+                <p className="text-xs text-amber-600 mb-2">
+                  Novas imagens selecionadas (substituirão as atuais ao salvar):
+                </p>
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                  {selectedPreviews.map((url, index) => (
+                    <div
+                      key={index}
+                      className="relative aspect-square rounded-md overflow-hidden border bg-muted"
+                    >
+                      <img
+                        src={url}
+                        alt={`Nova ${index}`}
+                        className="w-full h-full object-cover"
+                      />
+                      {index === 0 && (
+                        <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-[9px] text-center py-0.5 font-semibold">
+                          Capa
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : data && data.images && data.images.length > 0 ? (
+              <div>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Imagens atualmente salvas no banco de dados:
+                </p>
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                  {data.images.map((url: string, index: number) => (
+                    <div
+                      key={index}
+                      className="relative aspect-square rounded-md overflow-hidden border bg-muted"
+                    >
+                      <img
+                        src={url}
+                        alt={`Salva ${index}`}
+                        className="w-full h-full object-cover"
+                      />
+                      {url === data.image && (
+                        <span className="absolute bottom-0 left-0 right-0 bg-green-600 text-white text-[9px] text-center py-0.5 font-semibold">
+                          Foto Principal
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground italic">
+                Nenhuma imagem cadastrada.
+              </p>
             )}
           </div>
 
@@ -361,16 +437,13 @@ export default function DialogStoreProperty() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => {
-                setIsDialogOpen(false);
-                resetForm();
-              }}
+              onClick={() => onOpenChange(false)}
               className="cursor-pointer"
             >
               Cancelar
             </Button>
 
-            {createMutation.isPending ? (
+            {isLoading || updateMutation.isPending ? (
               <Button
                 disabled
                 type="submit"
@@ -383,7 +456,7 @@ export default function DialogStoreProperty() {
                 type="submit"
                 className="cursor-pointer bg-green-700 hover:bg-green-800 text-white"
               >
-                Adicionar Imóvel
+                Atualizar Imóvel
               </Button>
             )}
           </div>

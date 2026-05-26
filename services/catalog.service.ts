@@ -19,8 +19,6 @@ export async function FindAllProperties(
   type?: string,
   purpose?: string,
 ) {
-  const headers = await getAuthHeaders();
-
   try {
     const queryParams = new URLSearchParams();
 
@@ -37,12 +35,11 @@ export async function FindAllProperties(
 
     const res = await apiRequest(url, {
       method: "GET",
-      headers,
     });
 
     return res;
   } catch (error) {
-    toast.error("Erro ao buscar as propriedades");
+    toast.error("Erro ao buscar os imóveis");
   }
 }
 
@@ -57,7 +54,7 @@ export async function FindOneProperty(id: string) {
 
     return res;
   } catch (error) {
-    toast.error("Erro ao buscar a propriedade");
+    toast.error("Erro ao buscar o imóvel");
   }
 }
 
@@ -75,7 +72,7 @@ export async function StoreProperty(formData: FormData) {
   } catch (error: any) {
     return {
       success: false,
-      message: error.message || "Erro inesperado ao criar propriedade",
+      message: error.message || "Erro inesperado ao criar imóvel",
     };
   }
 }
@@ -94,7 +91,7 @@ export async function UpdateProperty(id: string, formData: FormData) {
   } catch (error: any) {
     return {
       success: false,
-      message: error.message || "Erro inesperado ao atualizar propriedade",
+      message: error.message || "Erro inesperado ao atualizar imóvel",
     };
   }
 }
@@ -112,7 +109,7 @@ export async function DeleteProperty(id: string) {
   } catch (error: any) {
     return {
       success: false,
-      message: error.message || "Erro inesperado ao remover propriedade",
+      message: error.message || "Erro inesperado ao remover imóvel",
     };
   }
 }
