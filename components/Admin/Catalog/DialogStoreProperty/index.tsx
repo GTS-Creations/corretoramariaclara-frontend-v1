@@ -31,6 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { capitalizeWords } from "@/utils/capitalize-words";
 
 type CreatePropertyFormInput = z.input<typeof storePropertySchema>;
 type CreatePropertyFormData = z.output<typeof storePropertySchema>;
@@ -87,13 +88,13 @@ export default function DialogStoreProperty() {
     mutationFn: async (data: CreatePropertyFormData) => {
       const formData = new FormData();
 
-      formData.append("name", data.name);
+      formData.append("name", capitalizeWords(data.name));
       formData.append("value", data.value);
       formData.append("bedrooms", data.bedrooms || "0");
       formData.append("bathrooms", data.bathrooms || "0");
       formData.append("garage", data.garage || "0");
       formData.append("squareMeters", data.squareMeters);
-      formData.append("location", data.location);
+      formData.append("location", capitalizeWords(data.location));
       formData.append("type", data.type);
       formData.append("purpose", data.purpose);
       formData.append("description", data.description);
@@ -231,9 +232,9 @@ export default function DialogStoreProperty() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">Selecione...</SelectItem>
-                  <SelectItem value="venda">Venda</SelectItem>
-                  <SelectItem value="aluguel">Aluguel / Locação</SelectItem>
-                  <SelectItem value="temporada">Temporada</SelectItem>
+                  <SelectItem value="Venda">Venda</SelectItem>
+                  <SelectItem value="Aluguel">Aluguel / Locação</SelectItem>
+                  <SelectItem value="Temporada">Temporada</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -260,25 +261,25 @@ export default function DialogStoreProperty() {
                     <SelectLabel className="font-bold text-muted-foreground">
                       Residencial
                     </SelectLabel>
-                    <SelectItem value="casa">Casa</SelectItem>
-                    <SelectItem value="apartamento">Apartamento</SelectItem>
-                    <SelectItem value="casa-condominio">
+                    <SelectItem value="Casa">Casa</SelectItem>
+                    <SelectItem value="Apartamento">Apartamento</SelectItem>
+                    <SelectItem value="Casa-Condominio">
                       Casa em Condomínio
                     </SelectItem>
-                    <SelectItem value="cobertura">Cobertura</SelectItem>
-                    <SelectItem value="kitnet">Kitnet / Loft</SelectItem>
+                    <SelectItem value="Cobertura">Cobertura</SelectItem>
+                    <SelectItem value="Kitnet">Kitnet / Loft</SelectItem>
                   </SelectGroup>
 
                   <SelectGroup className="mt-2">
                     <SelectLabel className="font-bold text-muted-foreground">
                       Comercial / Outros
                     </SelectLabel>
-                    <SelectItem value="sala-comercial">
+                    <SelectItem value="Sala-Comercial">
                       Sala Comercial
                     </SelectItem>
-                    <SelectItem value="galpao">Galpão / Depósito</SelectItem>
-                    <SelectItem value="terreno">Terreno / Lote</SelectItem>
-                    <SelectItem value="chacara">Chácara / Sítio</SelectItem>
+                    <SelectItem value="Galpao">Galpão / Depósito</SelectItem>
+                    <SelectItem value="Terreno">Terreno / Lote</SelectItem>
+                    <SelectItem value="Chacara">Chácara / Sítio</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

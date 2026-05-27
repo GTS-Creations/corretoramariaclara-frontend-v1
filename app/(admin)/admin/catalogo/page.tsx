@@ -23,6 +23,7 @@ import DialogStoreProperty from "@/components/Admin/Catalog/DialogStoreProperty"
 import { useFindAllProperties } from "@/hooks/usePropertyQuery";
 import DialogUpdateProperty from "@/components/Admin/Catalog/DialogUpdateProperty";
 import DialogDeleteProperty from "@/components/Admin/Catalog/DialogDeleteProperty";
+import { IProperty } from "@/interfaces/property";
 
 export default function Properties() {
   const [updatePropertyId, setUpdatePropertyId] = useState<string | null>(null);
@@ -38,7 +39,7 @@ export default function Properties() {
     limit,
   });
 
-  const properties = data?.data;
+  const properties: IProperty[] = data?.data;
   const total = data?.total ?? 0;
 
   const totalPages = Math.ceil(total / limit);
@@ -77,6 +78,9 @@ export default function Properties() {
                   <TableHead>Nome</TableHead>
                   <TableHead>Valor</TableHead>
                   <TableHead>Localização</TableHead>
+                  <TableHead>Finalidade</TableHead>
+                  <TableHead>Tipo</TableHead>
+                  <TableHead>Financiável</TableHead>
                   <TableHead className="text-right">Ações</TableHead>
                 </TableRow>
               </TableHeader>
@@ -84,6 +88,15 @@ export default function Properties() {
                 {isLoading ? (
                   [...Array(limit)].map((_, i) => (
                     <TableRow key={i}>
+                      <TableCell>
+                        <Skeleton className="h-4 w-20" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-20" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-20" />
+                      </TableCell>
                       <TableCell>
                         <Skeleton className="h-4 w-20" />
                       </TableCell>
@@ -102,15 +115,22 @@ export default function Properties() {
                     </TableRow>
                   ))
                 ) : properties.length > 0 ? (
-                  properties.map((property: any) => (
+                  properties.map((property) => (
                     <TableRow key={property.id}>
                       <TableCell className="font-medium">
                         {property.name}
                       </TableCell>
 
-                      <TableCell>{property.value}</TableCell>
+                      <TableCell>R$ {property.value}</TableCell>
 
                       <TableCell>{property.location}</TableCell>
+
+                      <TableCell>{property.purpose}</TableCell>
+
+                      <TableCell>{property.type}</TableCell>
+                      <TableCell>
+                        {property.canFinance ? "Sim" : "Não"}
+                      </TableCell>
 
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">

@@ -39,7 +39,7 @@ export function useFindAllProperties({
   purpose,
 }: UseFindAllPropertiesProps = {}) {
   return useQuery({
-    queryKey: ["properties", page, location, type, purpose],
+    queryKey: ["properties", page, limit, location, type, purpose],
 
     queryFn: async () => {
       return await FindAllProperties(page, limit, location, type, purpose);
