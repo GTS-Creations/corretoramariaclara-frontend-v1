@@ -144,12 +144,12 @@ export default function DialogStoreProperty() {
       }}
     >
       <DialogTrigger asChild>
-        <Button className="bg-white hover:bg-gray-200 px-6 py-3 cursor-pointer text-black border border-gray-300">
+        <Button className="bg-white hover:bg-gray-200 px-6 py-3 cursor-pointer text-black border border-gray-300 font-urban">
           <Plus className="w-5 h-5 mr-2" />
           Adicionar Imóvel
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto font-urban">
         <DialogHeader>
           <DialogTitle>Adicionar Imóvel</DialogTitle>
           <DialogDescription>

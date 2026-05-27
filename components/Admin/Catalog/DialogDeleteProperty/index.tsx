@@ -46,7 +46,7 @@ export default function DialogDeleteProperty({
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="font-urban">
         <AlertDialogHeader>
           <AlertDialogTitle>Excluir Imóvel</AlertDialogTitle>
           <AlertDialogDescription>

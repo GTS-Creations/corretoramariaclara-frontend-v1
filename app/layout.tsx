@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     siteName: "Maria Clara Corretora",
     images: [
       {
-        url: "/logo.jpeg",
+        url: "/logo.png",
         width: 1200,
         height: 630,
         alt: "Maria Clara Corretora de Imóveis",

@@ -168,7 +168,7 @@ export default function DialogUpdateProperty({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto font-urban">
         <DialogHeader>
           <DialogTitle>Atualizar Imóvel</DialogTitle>
           <DialogDescription>

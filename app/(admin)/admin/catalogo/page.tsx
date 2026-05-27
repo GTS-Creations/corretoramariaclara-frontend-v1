@@ -45,7 +45,7 @@ export default function Properties() {
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="space-y-6">
+    <main className="space-y-6 font-urban">
       <div className="flex flex-wrap justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Imóveis</h1>
@@ -222,6 +222,6 @@ export default function Properties() {
           }}
         />
       )}
-    </div>
+    </main>
   );
 }
