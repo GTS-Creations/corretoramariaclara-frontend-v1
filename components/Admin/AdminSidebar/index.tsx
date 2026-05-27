@@ -36,7 +36,7 @@ export default function AdminSidebar({ children, user }: AdminSidebarProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 font-urban">
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
@@ -101,10 +101,10 @@ export default function AdminSidebar({ children, user }: AdminSidebarProps) {
       </div>
 
       <div className="lg:pl-64">
-        <header className="bg-clara-primary shadow-sm border-b h-16 flex items-center justify-between px-6 lg:justify-end">
+        <header className="bg-clara-tertiary shadow-sm text-white border-b h-16 flex items-center justify-between px-6 lg:justify-end">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden text-gray-500 hover:text-gray-700 cursor-pointer"
+            className="lg:hidden text-clara-primary hover:text-clara-secondary transition-colors cursor-pointer"
           >
             <Menu className="w-5 h-5" />
           </button>

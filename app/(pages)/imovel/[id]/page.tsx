@@ -4,76 +4,189 @@ import { MapPin, Bed, Bath, Car, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FaWhatsapp } from "react-icons/fa";
+import { useParams } from "next/navigation";
+import { useFindOneProperty } from "@/hooks/usePropertyQuery";
+import { IProperty } from "@/interfaces/property";
+import { Skeleton } from "@/components/ui/skeleton";
+import { formatCurrency } from "@/utils/format-currency";
 
 export default function PropertyPage() {
-  const property = {
-    title: "Sobrado mobiliado",
-    price: "R$ 380.000",
-    location: "Pinheiros - Estrela - RS",
-    bedrooms: 2,
-    bathrooms: 2,
-    area: "70 m²",
-    vagas: 1,
-  };
+  const { id } = useParams() as { id: string };
+
+  const { data, isLoading } = useFindOneProperty({
+    id,
+  });
+
+  const property: IProperty = data;
 
   const handleWhatsAppClick = () => {
-    const whatsappNumber = "5587999380401";
+    const whatsappNumber = "558799380401";
+    const bedroomsLabel = property.bedrooms > 1 ? "quartos" : "quarto";
+    const bathroomsLabel = property.bathrooms > 1 ? "banheiros" : "banheiro";
+    const garageLabel =
+      property.garage > 1 ? "vagas na garagem" : "vaga na garagem";
+
     const message = `Olá! Gostaria de mais informações sobre o imóvel:
-*${property.title}*
-Valor: ${property.price}
+*${property.name}*
+Valor: ${formatCurrency(property.value)}
 Localização: ${property.location}
-Configuração: ${property.bedrooms} quartos, ${property.bathrooms} banheiros e ${property.area}.`;
+Configuração: ${property.squareMeters}m², ${property.bedrooms} ${bedroomsLabel}, ${property.bathrooms} ${bathroomsLabel} e ${property.garage} ${garageLabel}.`;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
     window.open(whatsappUrl, "_blank");
   };
 
+  if (isLoading) {
+    return (
+      <main className="max-w-7xl mx-auto px-4 xl:px-0 py-10 animate-pulse">
+        {/* Galeria */}
+        <section className="grid grid-cols-1 md:grid-cols-4 gap-2 h-75 md:h-125 mb-8 rounded-xl overflow-hidden">
+          <div className="md:col-span-2 relative bg-muted rounded-xl">
+            <Skeleton className="h-full w-full rounded-none" />
+
+            <Skeleton className="absolute bottom-4 left-4 h-10 w-28 rounded-md" />
+          </div>
+
+          <div className="hidden md:grid grid-cols-2 grid-rows-2 gap-2 md:col-span-2">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton key={index} className="h-full w-full rounded-none" />
+            ))}
+          </div>
+        </section>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Coluna esquerda */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-4">
+              <div className="space-y-3 w-full">
+                <Skeleton className="h-8 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+
+              <div className="space-y-2 w-full md:w-40">
+                <Skeleton className="h-3 w-16" />
+                <Skeleton className="h-8 w-32" />
+              </div>
+            </div>
+
+            {/* Infos */}
+            <div className="flex justify-around pb-4 border-b">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="flex flex-col items-center gap-2">
+                  <Skeleton className="h-6 w-6 rounded-full" />
+                  <Skeleton className="h-3 w-12" />
+                  <Skeleton className="h-4 w-8" />
+                </div>
+              ))}
+            </div>
+
+            {/* Descrição */}
+            <section className="space-y-4">
+              <Skeleton className="h-6 w-40" />
+
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+                <Skeleton className="h-4 w-4/6" />
+              </div>
+            </section>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="space-y-4">
+            <Card className="bg-slate-50/50">
+              <CardContent className="p-4 text-center">
+                <Skeleton className="w-16 h-16 rounded-full mx-auto mb-4" />
+
+                <div className="space-y-2 mb-6">
+                  <Skeleton className="h-6 w-40 mx-auto" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6 mx-auto" />
+                </div>
+
+                <Skeleton className="h-14 w-full rounded-md" />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-4 flex items-center gap-4">
+                <Skeleton className="w-12 h-12 rounded-full" />
+
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-3 w-16" />
+                </div>
+              </CardContent>
+            </Card>
+          </aside>
+        </div>
+      </main>
+    );
+  }
+
+  const images =
+    property.images && property.images.length > 0
+      ? property.images
+      : ["/placeholder-main.jpg"];
+
   return (
     <main className="max-w-7xl mx-auto px-4 xl:px-0 py-10">
       {/* --- Galeria de Imagens --- */}
-      <section className="grid grid-cols-1 md:grid-cols-4 gap-2 h-75 md:h-125 mb-8 rounded-xl overflow-hidden">
-        <div className="md:col-span-2 relative bg-gray-200">
-          <img
-            src="/placeholder-main.jpg"
-            alt="Principal"
-            className="w-full h-full object-cover"
-          />
-          <Button
-            variant="secondary"
-            className="absolute bottom-4 left-4 gap-2"
-          >
-            Fotos (10)
-          </Button>
-        </div>
-        <div className="hidden md:grid grid-rows-2 gap-2 md:col-span-2">
-          <div className="bg-gray-200">
-            <img
-              src="/placeholder-kitchen.jpg"
-              className="w-full h-full object-cover"
-              alt="Cozinha"
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="bg-gray-200">
+      <section
+        className={`
+        grid gap-2 mb-8 rounded-xl overflow-hidden
+        ${images.length === 1 ? "grid-cols-1" : "grid-cols-2 md:grid-cols-4"}
+      `}
+      >
+        {images.slice(0, 5).map((image, index) => {
+          const total = images.length;
+
+          const dynamicClass = (() => {
+            // Mobile
+            const mobile = total === 1 ? "h-[300px]" : "h-[180px]";
+
+            // Desktop
+            if (total === 1) {
+              return `${mobile} md:col-span-4 md:h-[500px]`;
+            }
+
+            if (total === 2) {
+              return `${mobile} md:col-span-2 md:h-[500px]`;
+            }
+
+            if (total === 3) {
+              return index === 0
+                ? `${mobile} col-span-2 md:col-span-2 md:row-span-2 md:h-[500px]`
+                : `${mobile} md:col-span-2 md:h-[246px]`;
+            }
+
+            if (total === 4) {
+              return index === 0
+                ? `${mobile} col-span-2 md:col-span-2 md:row-span-2 md:h-[500px]`
+                : `${mobile} md:h-[246px]`;
+            }
+
+            return index === 0
+              ? `${mobile} col-span-2 md:col-span-2 md:row-span-2 md:h-[500px]`
+              : `${mobile} md:h-[246px]`;
+          })();
+
+          return (
+            <div
+              key={index}
+              className={`relative overflow-hidden rounded-lg ${dynamicClass}`}
+            >
               <img
-                src="/placeholder-room.jpg"
+                src={image}
+                alt={`Imagem ${index + 1}`}
                 className="w-full h-full object-cover"
-                alt="Quarto"
               />
             </div>
-            <div className="bg-gray-200 relative">
-              <img
-                src="/placeholder-more.jpg"
-                className="w-full h-full object-cover brightness-50"
-                alt="Mais"
-              />
-              <span className="absolute inset-0 flex items-center justify-center text-white font-bold">
-                + Ver mais
-              </span>
-            </div>
-          </div>
-        </div>
+          );
+        })}
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -81,21 +194,24 @@ Configuração: ${property.bedrooms} quartos, ${property.bathrooms} banheiros e 
         <div className="lg:col-span-2 space-y-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b text-slate-600 pb-4">
             <div className="space-y-1">
-              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">
-                {property.title}
+              <h1 className="text-2xl md:text-3xl font-bold font-cinzel text-slate-800 tracking-tight">
+                {property.name}
               </h1>
-              <p className="text-slate-500 flex items-center gap-1.5 text-sm md:text-base">
+              <p className="text-slate-500 flex items-center font-urban gap-1.5 text-sm md:text-base">
                 <MapPin size={18} className="text-slate-400" />
                 {property.location}
+              </p>
+              <p className="text-slate-500 flex items-center font-urban gap-1.5 text-sm md:text-base">
+                {property.type} - {property.purpose}
               </p>
             </div>
 
             <div className="text-left md:text-right bg-slate-50 md:bg-transparent p-3 md:p-0 rounded-lg w-full md:w-auto">
-              <p className="text-xs uppercase font-semibold text-slate-500 md:mb-1">
+              <p className="text-xs uppercase font-urban font-semibold text-slate-500 md:mb-1">
                 Valor
               </p>
-              <p className="font-extrabold text-2xl md:text-3xl text-slate-900 tracking-tighter">
-                {property.price}
+              <p className="font-extrabold text-2xl md:text-3xl text-slate-900 tracking-tighter font-urban">
+                {formatCurrency(property.value)}
               </p>
             </div>
           </div>
@@ -103,32 +219,39 @@ Configuração: ${property.bedrooms} quartos, ${property.bathrooms} banheiros e 
           <div className="flex justify-around pb-4 border-b text-slate-600">
             <div className="flex flex-col items-center gap-1">
               <Home size={24} />
-              <span className="text-[10px] uppercase">Área</span>
-              <p className="font-bold">{property.area}</p>
+              <span className="text-[10px] uppercase font-urban">Área</span>
+              <p className="font-bold font-urban">{property.squareMeters}m²</p>
             </div>
+
             <div className="flex flex-col items-center gap-1">
               <Bed size={24} />
-              <span className="text-[10px] uppercase">Quartos</span>
-              <p className="font-bold">{property.bedrooms}</p>
+              <span className="text-[10px] uppercase font-urban">
+                {property.bedrooms > 1 ? "Quartos" : "Quarto"}
+              </span>
+              <p className="font-bold font-urban">{property.bedrooms}</p>
             </div>
+
             <div className="flex flex-col items-center gap-1">
               <Bath size={24} />
-              <span className="text-[10px] uppercase">Banh.</span>
-              <p className="font-bold">{property.bathrooms}</p>
+              <span className="text-[10px] uppercase font-urban">
+                {property.bathrooms > 1 ? "Banheiros" : "Banheiro"}
+              </span>
+              <p className="font-bold font-urban">{property.bathrooms}</p>
             </div>
+
             <div className="flex flex-col items-center gap-1">
               <Car size={24} />
-              <span className="text-[10px] uppercase">Vagas</span>
-              <p className="font-bold">{property.vagas}</p>
+              <span className="text-[10px] uppercase font-urban">
+                {property.garage > 1 ? "Vagas" : "Vaga"}
+              </span>
+              <p className="font-bold font-urban">{property.garage}</p>
             </div>
           </div>
 
           <section>
-            <h2 className="text-xl font-bold mb-4">Descrição</h2>
-            <p className="text-slate-600 leading-relaxed">
-              Sobrado disponível para venda e locação no bairro Pinheiros,
-              localizado em rua asfaltada. O imóvel conta com 2 dormitórios,
-              sala aconchegante integrada à cozinha, além de ser mobiliado.
+            <h2 className="text-xl font-bold font-urban mb-4">Descrição</h2>
+            <p className="text-slate-600 leading-relaxed font-urban wrap-break-word">
+              {property.description}
             </p>
           </section>
         </div>
@@ -140,17 +263,17 @@ Configuração: ${property.bedrooms} quartos, ${property.bathrooms} banheiros e 
               <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaWhatsapp className="text-green-600 w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-2">
+              <h3 className="text-xl font-bold text-slate-800 mb-2 font-urban">
                 Ficou interessado?
               </h3>
-              <p className="text-sm text-slate-500 mb-6">
+              <p className="text-sm text-slate-500 mb-6 font-urban">
                 Clique no botão abaixo para conversar agora e tirar suas dúvidas
                 sobre este imóvel.
               </p>
 
               <Button
                 onClick={handleWhatsAppClick}
-                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-7 text-lg gap-3 transition-colors cursor-pointer font-extralight"
+                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-7 text-lg gap-3 transition-colors cursor-pointer font-semibold font-urban"
               >
                 Saiba Mais via WhatsApp
               </Button>
@@ -167,7 +290,7 @@ Configuração: ${property.bedrooms} quartos, ${property.bathrooms} banheiros e 
                 />
               </div>
               <div className="flex-1 text-left">
-                <p className="font-extralight text-sm">Maria Clara</p>
+                <p className="text-sm font-urban">Maria Clara</p>
                 <p className="text-xs text-slate-500">CRECI: 21203</p>
               </div>
             </CardContent>

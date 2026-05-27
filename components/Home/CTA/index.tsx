@@ -19,10 +19,10 @@ export default function HomeCTA() {
           </div>
 
           <div className="flex-1 text-center lg:text-left">
-            <h3 className="text-xl lg:text-2xl font-bold mb-2">
+            <h3 className="text-xl lg:text-2xl font-urban mb-2">
               Não encontrou o que procura?
             </h3>
-            <p className="text-sm lg:text-base">
+            <p className="text-sm lg:text-base font-urban">
               Conte pra mim o que você precisa que eu te ajudo a encontrar o
               imóvel ideal!
             </p>
@@ -33,7 +33,7 @@ export default function HomeCTA() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button className="bg-clara-secondary text-white hover:bg-clara-tertiary rounded-full px-8 py-6 font-medium shrink-0 cursor-pointer">
+            <Button className="bg-clara-secondary text-white hover:bg-clara-tertiary rounded-full px-8 py-6 font-medium shrink-0 cursor-pointer font-cinzel">
               Fale com a corretora
               <MessagesSquare className="ml-1" />
             </Button>

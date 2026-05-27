@@ -34,7 +34,7 @@ export const NavLink: React.FC<NavbarProps> = ({
   return (
     <Link
       href={href}
-      className={`${baseStyle} ${activeStyle}`}
+      className={`${baseStyle} ${activeStyle} font-urban`}
       onClick={onClick}
     >
       {children}
@@ -67,7 +67,7 @@ export default function Header() {
           />
         </Link>
 
-        <div className="hidden lg:flex lg:gap-x-8">
+        <div className="hidden lg:flex lg:gap-x-8 font-urban">
           {navigation.map((item) => (
             <NavLink key={item.href} href={item.href}>
               {item.name}
@@ -81,7 +81,7 @@ export default function Header() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button className="bg-[#2D2E2E] hover:bg-[#FF5454] transition-colors cursor-pointer rounded-full px-6 py-5">
+            <Button className="bg-[#2D2E2E] hover:bg-[#FF5454] transition-colors cursor-pointer rounded-full px-6 py-5 font-cinzel">
               Anuncie Aqui
               <MessagesSquare className="ml-1" />
             </Button>
@@ -131,7 +131,7 @@ export default function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="w-full bg-[#2D2E2E] hover:bg-[#FF5454] transition-colors cursor-pointer rounded-full py-6 text-base">
+                <Button className="w-full bg-[#2D2E2E] hover:bg-[#FF5454] transition-colors cursor-pointer rounded-full py-6 text-base font-cinzel">
                   Anuncie Aqui
                   <MessagesSquare className="ml-1" />
                 </Button>

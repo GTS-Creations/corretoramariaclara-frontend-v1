@@ -61,11 +61,11 @@ export default function PageFinancing() {
       {/* --- HERO SECTION --- */}
       <section className="relative bg-clara-tertiary py-20 px-4 xl:px-0">
         <div className="max-w-5xl mx-auto text-center text-white">
-          <h1 className="text-4xl md:text-6xl font-extrabold font-serif mb-6">
+          <h1 className="text-4xl md:text-6xl font-urban mb-6">
             Descomplique o seu{" "}
             <span className="text-clara-secondary">Financiamento</span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-urban">
             Entender as regras do jogo é o primeiro passo para conquistar a
             chave da sua casa nova. Preparamos um guia completo para você
             decidir com segurança.
@@ -74,7 +74,7 @@ export default function PageFinancing() {
       </section>
 
       {/* --- CARDS INFORMATIVOS --- */}
-      <section className="max-w-7xl mx-auto px-4 xl:px-0 mt-12">
+      <section className="max-w-7xl mx-auto px-4 xl:px-0 mt-12 font-urban">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {info.map((item, index) => (
             <div
@@ -94,7 +94,7 @@ export default function PageFinancing() {
       </section>
 
       {/* --- ETAPAS DO PROCESSO --- */}
-      <section className="py-20 px-4 xl:px-0 max-w-7xl mx-auto">
+      <section className="py-20 px-4 xl:px-0 max-w-7xl mx-auto font-urban">
         <h2 className="text-3xl font-serif font-extrabold text-slate-900 text-center mb-16">
           O Caminho até a Escritura
         </h2>
@@ -119,11 +119,11 @@ export default function PageFinancing() {
       </section>
 
       {/* --- SAC E DÚVIDAS FREQUENTES --- */}
-      <section className="bg-white py-20 px-4 xl:px-0">
+      <section className="bg-white py-20 px-4 xl:px-0 font-urban">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <HelpCircle className="w-12 h-12 text-clara-secondary mx-auto mb-4" />
-            <h2 className="text-3xl font-serif font-extrabold text-slate-900">
+            <h2 className="text-3xl font-extrabold text-slate-900">
               Principais Dúvidas
             </h2>
           </div>
@@ -168,10 +168,10 @@ export default function PageFinancing() {
       <section className="py-20 px-4 xl:px-0">
         <div className="max-w-5xl mx-auto bg-clara-secondary rounded-3xl p-10 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">
           <div className="relative z-10">
-            <h2 className="text-3xl md:text-5xl font-extrabold mb-6">
+            <h2 className="text-3xl md:text-5xl font-extrabold font-urban mb-6">
               Pronto para dar esse passo?
             </h2>
-            <p className="text-lg mb-10 text-white max-w-xl mx-auto">
+            <p className="text-lg mb-10 text-white max-w-xl mx-auto font-urban">
               Nossa equipe de especialistas está pronta para fazer uma simulação
               personalizada para você sem custo algum.
             </p>
@@ -184,7 +184,7 @@ export default function PageFinancing() {
                 <Button
                   size="lg"
                   variant="secondary"
-                  className="text-clara-secondary font-bold h-14 px-8 rounded-full hover:bg-white cursor-pointer"
+                  className="text-clara-secondary font-bold h-14 px-8 rounded-full hover:bg-white cursor-pointer font-cinzel"
                 >
                   <Calculator className="mr-2 h-5 w-5" />
                   Simular Agora

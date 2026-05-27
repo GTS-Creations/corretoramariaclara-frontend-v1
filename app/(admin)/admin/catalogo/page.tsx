@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -17,79 +16,52 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Eye, Search } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { IProperty } from "@/models/Property";
-// import DialogCreateCompany from "@/components/Company/DialogCreateCompany";
-// import { FindAllCompanies } from "@/services/Company";
-// import DialogDeleteCompany from "@/components/Company/DialogDeleteCompany";
-// import DialogEditCompany from "@/components/Company/DialogEditCompany";
-// import { DialogDetailCompany } from "@/components/Company/DialogDetailCompany";
+import DialogStoreProperty from "@/components/Admin/Catalog/DialogStoreProperty";
+import { useFindAllProperties } from "@/hooks/usePropertyQuery";
+import DialogUpdateProperty from "@/components/Admin/Catalog/DialogUpdateProperty";
+import DialogDeleteProperty from "@/components/Admin/Catalog/DialogDeleteProperty";
+import { IProperty } from "@/interfaces/property";
+import { formatCurrency } from "@/utils/format-currency";
 
-export default function Companies() {
-  const [company, setCompany] = useState<IProperty[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
+export default function Properties() {
+  const [updatePropertyId, setUpdatePropertyId] = useState<string | null>(null);
+  const [deleteProperty, setDeleteProperty] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
-  const [total, setTotal] = useState(0);
+  const limit = 10;
+  const { data, isLoading, isFetching } = useFindAllProperties({
+    page,
+    limit,
+  });
 
-  //   const fetchCompanies = async () => {
-  //     try {
-  //       const res = await FindAllCompanies(
-  //         page,
-  //         limit,
-  //         "updatedAt,desc",
-  //         searchTerm,
-  //       );
-  //       setCompany(res.data);
-  //       setTotal(res.total);
-  //     } catch (error) {
-  //       toast.error("Erro ao buscar empresas");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     fetchCompanies();
-  //   }, [page, searchTerm]);
-
-  const filteredCompanies = company.filter((company) =>
-    company.legalName?.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const properties: IProperty[] = data?.data;
+  const total = data?.meta?.total ?? 0;
+  const totalPages = data?.meta?.totalPages ?? 1;
+  const hasNextPage = data?.meta?.hasNextPage ?? false;
+  const hasPreviousPage = data?.meta?.hasPreviousPage ?? false;
 
   return (
-    <div className="space-y-6">
+    <main className="space-y-6 font-urban">
       <div className="flex flex-wrap justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Imóveis</h1>
           <p className="text-gray-600">Gerencie seus imóveis</p>
         </div>
 
-        {/* <DialogCreateCompany onCreated={fetchCompanies} /> */}
+        <DialogStoreProperty />
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-2 h-4 w-4" />
-          <Input
-            placeholder="Buscar imóveis..."
-            value={searchTerm}
-            onChange={(e) => {
-              setPage(1);
-              setSearchTerm(e.target.value);
-            }}
-            className="pl-10 border-gray-300 bg-white"
-          />
-        </div>
         <div className="text-sm text-gray-600">
-          {loading
-            ? "Carregando..."
-            : `${filteredCompanies.length} de ${total} imóveis encontrados`}
+          {isFetching
+            ? "Atualizando..."
+            : `${properties.length} de ${total} imóveis encontrados`}
         </div>
       </div>
 
@@ -106,56 +78,98 @@ export default function Companies() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Nome</TableHead>
-                  <TableHead>CNPJ</TableHead>
-                  <TableHead>E-mail</TableHead>
+                  <TableHead>Valor</TableHead>
+                  <TableHead>Localização</TableHead>
+                  <TableHead>Finalidade</TableHead>
+                  <TableHead>Tipo</TableHead>
+                  <TableHead>Financiável</TableHead>
                   <TableHead className="text-right">Ações</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {loading
-                  ? [...Array(5)].map((_, i) => (
-                      <TableRow key={i}>
-                        <TableCell>
-                          <Skeleton className="h-4 w-20" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-4 w-20" />
-                        </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-4 w-20" />
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            <Skeleton className="h-8 w-8 rounded-md" />
-                            <Skeleton className="h-8 w-8 rounded-md" />
-                            <Skeleton className="h-8 w-8 rounded-md" />
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  : filteredCompanies.map((company) => (
-                      <TableRow key={company.id}>
-                        <TableCell>{company.legalName}</TableCell>
-                        <TableCell>{company.cnpj}</TableCell>
-                        <TableCell>{company.email}</TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            {/* <DialogDetailCompany id={company.id} />
+                {isLoading ? (
+                  [...Array(limit)].map((_, i) => (
+                    <TableRow key={i}>
+                      <TableCell>
+                        <Skeleton className="h-4 w-20" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-20" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-20" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-20" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-20" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-20" />
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Skeleton className="h-8 w-8 rounded-md" />
+                          <Skeleton className="h-8 w-8 rounded-md" />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : properties.length > 0 ? (
+                  properties.map((property) => (
+                    <TableRow key={property.id}>
+                      <TableCell className="font-medium">
+                        {property.name}
+                      </TableCell>
 
-                            <DialogEditCompany
-                              id={company.id}
-                              onUpdated={fetchCompanies}
-                            />
+                      <TableCell>{formatCurrency(property.value)}</TableCell>
 
-                            <DialogDeleteCompany
-                              id={company.id}
-                              name={company.legalName}
-                              setCompanies={setCompany}
-                            /> */}
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                      <TableCell>{property.location}</TableCell>
+
+                      <TableCell>{property.purpose}</TableCell>
+
+                      <TableCell>{property.type}</TableCell>
+                      <TableCell>
+                        {property.canFinance ? "Sim" : "Não"}
+                      </TableCell>
+
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            variant="outline"
+                            className="cursor-pointer"
+                            onClick={() => setUpdatePropertyId(property.id)}
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+
+                          <Button
+                            variant="destructive"
+                            className="cursor-pointer"
+                            onClick={() =>
+                              setDeleteProperty({
+                                id: property.id,
+                                name: property.name,
+                              })
+                            }
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center py-10 text-muted-foreground"
+                    >
+                      Nenhum imóvel encontrado.
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </div>
@@ -164,22 +178,20 @@ export default function Companies() {
             <Button
               variant="outline"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1 || loading}
+              disabled={!hasPreviousPage || isFetching}
               className="cursor-pointer"
             >
               Anterior
             </Button>
 
             <span className="px-2 text-sm flex items-center">
-              Página {page} de {Math.ceil(total / limit)}
+              Página {page} de {totalPages || 1}
             </span>
 
             <Button
               variant="outline"
-              onClick={() =>
-                setPage((p) => (p < Math.ceil(total / limit) ? p + 1 : p))
-              }
-              disabled={page >= Math.ceil(total / limit) || loading}
+              onClick={() => setPage((p) => p + 1)}
+              disabled={!hasNextPage || isFetching}
               className="cursor-pointer"
             >
               Próxima
@@ -187,6 +199,31 @@ export default function Companies() {
           </div>
         </CardContent>
       </Card>
-    </div>
+
+      {updatePropertyId && (
+        <DialogUpdateProperty
+          id={updatePropertyId}
+          open={!!updatePropertyId}
+          onOpenChange={(open) => {
+            if (!open) {
+              setUpdatePropertyId(null);
+            }
+          }}
+        />
+      )}
+
+      {deleteProperty && (
+        <DialogDeleteProperty
+          id={deleteProperty.id}
+          name={deleteProperty.name}
+          open={!!deleteProperty}
+          onOpenChange={(open) => {
+            if (!open) {
+              setDeleteProperty(null);
+            }
+          }}
+        />
+      )}
+    </main>
   );
 }

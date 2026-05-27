@@ -9,7 +9,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <span className="bg-white px-4 py-2 rounded-full shadow-xl text-gray-800 font-bold text-[12px] border border-gray-100 group-hover:bg-gray-50 transition-all duration-300 -mr-5 z-10">
+      <span className="bg-white px-4 py-2 rounded-full shadow-xl text-gray-800 font-semibold text-[12px] border border-gray-100 group-hover:bg-gray-50 transition-all font-cinzel duration-300 -mr-5 z-10">
         Simular Financiamento
       </span>
 

@@ -13,7 +13,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Eye, EyeOff, Lock, User } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@/public/logo.jpeg";
 import { loginSchema } from "@/schemas/auth.schema";
 import { LoginAdminService } from "@/services/auth.service";
 
@@ -55,9 +54,9 @@ export default function AdminLogin() {
             <Lock className="w-6 h-6 text-white" />
           </div>
 
-          <CardTitle className="mx-auto mb-2">
+          <CardTitle className="mx-auto mb-8">
             <Link href="/">
-              <Image src={logo} alt="logo" width={200} />
+              <Image src={"/logo.png"} height={200} alt="logo" width={200} />
             </Link>
           </CardTitle>
         </CardHeader>
@@ -132,7 +131,7 @@ export default function AdminLogin() {
             {/* BOTÃO */}
             <Button
               type="submit"
-              className="w-full bg-red-500 hover:bg-red-600"
+              className="w-full bg-red-500 hover:bg-red-600 cursor-pointer font-cinzel"
               disabled={loginMutation.isPending}
             >
               {loginMutation.isPending ? "Entrando..." : "Entrar"}

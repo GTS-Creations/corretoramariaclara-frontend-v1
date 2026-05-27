@@ -9,7 +9,7 @@ const navigation = [
 
 export default function Footer() {
   return (
-    <footer id="contato" className="bg-clara-quaternary text-white">
+    <footer className="bg-clara-quaternary text-white font-urban">
       <div className="mx-auto max-w-7xl px-4 xl:px-0 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           <div>
@@ -80,7 +80,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="tel:+5587999380401"
+                  href="https://wa.me/5587999380401"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="transition-colors hover:text-white/70 hover:underline"

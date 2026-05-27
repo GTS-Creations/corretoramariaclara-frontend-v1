@@ -13,10 +13,10 @@ import Autoplay from "embla-carousel-autoplay";
 import { IProperty } from "@/interfaces/property";
 import { useFindAllProperties } from "@/hooks/usePropertyQuery";
 
-export default function HomeRentals() {
+export default function HomeSales() {
   const page = 1;
   const limit = 4;
-  const purpose = "Aluguel";
+  const purpose = "Venda";
 
   const { data, isLoading } = useFindAllProperties({
     page,
@@ -27,13 +27,13 @@ export default function HomeRentals() {
   const properties: IProperty[] = data?.data ?? [];
 
   return (
-    <section className="py-10">
+    <section className="py-10 bg-muted/50">
       <div className="mx-auto max-w-7xl px-4 xl:px-0">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-urban">Aluguéis em destaque</h2>
+          <h2 className="text-2xl font-urban">Vendas em destaque</h2>
 
           <Link
-            href="/imoveis?purpose=Aluguel"
+            href="/imoveis?purpose=Venda"
             className="flex items-center gap-1 text-sm font-cinzel border-clara-secondary border px-4 py-2 rounded text-clara-secondary hover:border-clara-tertiary hover:text-clara-tertiary transition-colors"
           >
             Ver todos

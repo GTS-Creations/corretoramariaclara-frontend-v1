@@ -5,6 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-urban: var(--font-urbanist);
+  --font-cinzel: var(--font-cinzel-decorative);
   --color-clara-primary: var(--clara-primary);
   --color-clara-secondary: var(--clara-secondary);
   --color-clara-tertiary: var(--clara-tertiary);

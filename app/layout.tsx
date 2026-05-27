@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { TanstackQueryProvider } from "@/hooks/useTanstackQueryProvider";
+import { TanstackQueryProvider } from "@/providers/useTanstackQueryProvider";
+import { Urbanist, Cinzel_Decorative } from "next/font/google";
+
+const urbanist = Urbanist({
+  subsets: ["latin"],
+  variable: "--font-urbanist",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const cinzelDecorative = Cinzel_Decorative({
+  subsets: ["latin"],
+  variable: "--font-cinzel-decorative",
+  weight: ["400", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Corretora em Arcoverde | Maria Clara | Imóveis e Consultoria",
@@ -26,7 +39,7 @@ export const metadata: Metadata = {
     siteName: "Maria Clara Corretora",
     images: [
       {
-        url: "/logo.jpeg",
+        url: "/logo.png",
         width: 1200,
         height: 630,
         alt: "Maria Clara Corretora de Imóveis",
@@ -47,7 +60,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br" className={`h-full antialiased`}>
+    <html
+      lang="pt-br"
+      className={`h-full antialiased ${urbanist.variable} ${cinzelDecorative.variable}`}
+    >
       <body className="min-h-full flex flex-col">
         <TanstackQueryProvider>
           {children} <Toaster richColors position="top-right" />
