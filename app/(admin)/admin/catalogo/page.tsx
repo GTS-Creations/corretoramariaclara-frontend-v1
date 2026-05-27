@@ -161,7 +161,7 @@ export default function Properties() {
                 ) : (
                   <TableRow>
                     <TableCell
-                      colSpan={4}
+                      colSpan={7}
                       className="text-center py-10 text-muted-foreground"
                     >
                       Nenhum imóvel encontrado.

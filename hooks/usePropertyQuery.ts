@@ -1,4 +1,8 @@
-import { FindAllProperties, FindOneProperty } from "@/services/catalog.service";
+import {
+  FindAllProperties,
+  FindLocations,
+  FindOneProperty,
+} from "@/services/catalog.service";
 import { useQuery } from "@tanstack/react-query";
 
 interface UseFindOnePropertyProps {
@@ -46,5 +50,15 @@ export function useFindAllProperties({
     },
 
     enabled,
+  });
+}
+
+export function useFindAllLocations() {
+  return useQuery({
+    queryKey: ["locations"],
+
+    queryFn: async () => {
+      return await FindLocations();
+    },
   });
 }

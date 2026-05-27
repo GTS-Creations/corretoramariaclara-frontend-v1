@@ -61,6 +61,21 @@ export async function FindOneProperty(id: string) {
   }
 }
 
+export async function FindLocations() {
+  const headers = await getAuthHeaders();
+
+  try {
+    const res = await apiRequest(`/catalog/properties/locations`, {
+      method: "GET",
+      headers,
+    });
+
+    return res;
+  } catch (error) {
+    toast.error("Erro ao buscar as localizações");
+  }
+}
+
 export async function StoreProperty(formData: FormData) {
   const headers = await getAuthHeaders();
 

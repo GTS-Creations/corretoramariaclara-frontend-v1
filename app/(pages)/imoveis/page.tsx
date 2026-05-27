@@ -6,10 +6,9 @@ import { useSearchParams } from "next/navigation";
 import PropertyCard from "@/components/PropertyCard";
 import { useFindAllProperties } from "@/hooks/usePropertyQuery";
 import { IProperty } from "@/interfaces/property";
-import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function PropertiesPage() {
+export function PropertiesContent() {
   const searchParams = useSearchParams();
 
   const purpose = searchParams.get("purpose") || "";
@@ -28,7 +27,7 @@ export default function PropertiesPage() {
   const properties: IProperty[] = data?.data ?? [];
 
   return (
-    <section id="imoveis" className="py-10">
+    <section id="imoveis" className="py-10 min-h-screen">
       <div className="mx-auto max-w-7xl px-4 xl:px-0">
         <h1 className="text-3xl font-light mb-8">
           {purpose === "Venda"
@@ -93,5 +92,15 @@ export default function PropertiesPage() {
         </div>
       </div>
     </section>
+  );
+}
+
+import { Suspense } from "react";
+
+export default function PropertiesPage() {
+  return (
+    <Suspense fallback={<></>}>
+      <PropertiesContent />
+    </Suspense>
   );
 }
