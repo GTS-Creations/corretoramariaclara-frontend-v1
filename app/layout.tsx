@@ -17,24 +17,26 @@ const cinzelDecorative = Cinzel_Decorative({
 });
 
 export const metadata: Metadata = {
-  title: "Corretora em Arcoverde | Maria Clara | Imóveis e Consultoria",
+  title: "Corretora de Imóveis em Arcoverde PE | Maria Clara",
   description:
     "Encontre os melhores imóveis em Arcoverde e região com Maria Clara. Consultoria imobiliária especializada em compra, venda e aluguel com segurança e transparência.",
   keywords: [
-    "Corretora Arcoverde",
-    "Imobiliária Arcoverde",
-    "Comprar casa Arcoverde",
-    "Aluguel de imóveis Arcoverde",
+    "imobiliária em Arcoverde PE",
+    "corretora de imóveis em Arcoverde PE",
+    "imóveis em Arcoverde PE",
+    "casas à venda em Arcoverde PE",
+    "apartamentos à venda em Arcoverde PE",
+    "terrenos à venda em Arcoverde PE",
+    "imóveis para aluguel em Arcoverde PE",
+    "consultoria imobiliária em Arcoverde",
+    "imóveis no Sertão de Pernambuco",
     "Maria Clara Corretora",
-    "Apartamentos em Arcoverde",
-    "Investimento imobiliário Pernambuco",
-    "Terrenos em Arcoverde",
-    "Avaliação de imóveis Arcoverde",
+    "corretora em Arcoverde",
   ],
   openGraph: {
-    title: "Maria Clara - Consultoria Imobiliária em Arcoverde",
+    title: "Maria Clara - Corretora de Imóveis em Arcoverde PE",
     description:
-      "Ajudando você a encontrar o imóvel dos seus sonhos em Arcoverde e região.",
+      "Ajudando você a encontrar imóveis em Arcoverde e região com compra, venda e aluguel.",
     url: "https://www.corretoramariaclara.com.br",
     siteName: "Maria Clara Corretora",
     images: [
