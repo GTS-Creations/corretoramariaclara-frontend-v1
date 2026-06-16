@@ -61,7 +61,7 @@ export default function Properties() {
         <div className="text-sm text-gray-600">
           {isFetching
             ? "Atualizando..."
-            : `${properties.length} de ${total} imóveis encontrados`}
+            : `${properties ? properties.length : 0} de ${total} imóveis encontrados`}
         </div>
       </div>
 
@@ -116,7 +116,7 @@ export default function Properties() {
                       </TableCell>
                     </TableRow>
                   ))
-                ) : properties.length > 0 ? (
+                ) : properties?.length > 0 ? (
                   properties.map((property) => (
                     <TableRow key={property.id}>
                       <TableCell className="font-medium">

@@ -2,7 +2,6 @@
 
 import { apiRequest } from "@/utils/api";
 import { cookies } from "next/headers";
-import { toast } from "sonner";
 
 async function getAuthHeaders() {
   const cookieStore = await cookies();
@@ -41,8 +40,11 @@ export async function FindAllProperties(
     });
 
     return res;
-  } catch (error) {
-    toast.error("Erro ao buscar os imóveis");
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Erro inesperado ao carregar imóveis",
+    };
   }
 }
 
@@ -56,8 +58,11 @@ export async function FindOneProperty(id: string) {
     });
 
     return res;
-  } catch (error) {
-    toast.error("Erro ao buscar o imóvel");
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Erro inesperado ao buscar o imóvel",
+    };
   }
 }
 
@@ -71,8 +76,11 @@ export async function FindLocations() {
     });
 
     return res;
-  } catch (error) {
-    toast.error("Erro ao buscar as localizações");
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Erro inesperado ao buscar localizações",
+    };
   }
 }
 

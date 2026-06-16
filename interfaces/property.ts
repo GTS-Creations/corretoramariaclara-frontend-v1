@@ -12,4 +12,5 @@ export interface IProperty {
   description: string;
   canFinance: boolean;
   images?: string[];
+  video_url?: string;
 }

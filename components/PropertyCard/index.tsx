@@ -24,6 +24,7 @@ export default function PropertyCard({
           src={images?.[0] || "/placeholder.jpg"}
           alt={name ? name : "Imagem do imóvel"}
           fill
+          unoptimized
           sizes="(max-width: 768px) 100vw, 25vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />

@@ -27,6 +27,11 @@ export const storePropertySchema = z.object({
 
   canFinance: z.boolean(),
 
+  video_url: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string().url("URL do vídeo inválida").optional(),
+  ),
+
   images: z
     .custom<FileList>()
     .transform((files) => (files ? Array.from(files) : []))
@@ -66,6 +71,11 @@ export const updatePropertySchema = z.object({
   description: z.string().min(1, "Descrição do imóvel obrigatória"),
 
   canFinance: z.boolean(),
+
+  video_url: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string().url("URL do vídeo inválida").optional(),
+  ),
 
   images: z
     .custom<FileList>()

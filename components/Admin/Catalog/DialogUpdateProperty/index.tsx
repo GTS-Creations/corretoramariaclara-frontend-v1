@@ -72,6 +72,7 @@ export default function DialogUpdateProperty({
       type: "",
       purpose: "",
       description: "",
+      video_url: "",
       canFinance: false,
       images: undefined,
     },
@@ -111,6 +112,7 @@ export default function DialogUpdateProperty({
         type: data.type || "",
         purpose: data.purpose || "",
         description: data.description || "",
+        video_url: data.video_url || "",
         canFinance: data.canFinance || false,
         images: undefined,
       });
@@ -132,6 +134,7 @@ export default function DialogUpdateProperty({
       formData.append("purpose", data.purpose);
       formData.append("description", data.description);
       formData.append("canFinance", data.canFinance.toString());
+      formData.append("video_url", data.video_url || "");
 
       if (data.images && data.images.length > 0) {
         if (data.images.length === 1) {
@@ -345,6 +348,17 @@ export default function DialogUpdateProperty({
               {errors.location && (
                 <p className="text-sm text-red-500">
                   {errors.location.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label>Url do vídeo</Label>
+              <Input {...register("video_url")} />
+
+              {errors.video_url && (
+                <p className="text-sm text-red-500">
+                  {errors.video_url.message}
                 </p>
               )}
             </div>

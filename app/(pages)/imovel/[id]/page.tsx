@@ -17,6 +17,7 @@ import { useFindOneProperty } from "@/hooks/usePropertyQuery";
 import { IProperty } from "@/interfaces/property";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency } from "@/utils/format-currency";
+import { getYoutubeEmbedUrl } from "@/utils/embed-url";
 
 export default function PropertyPage() {
   const { id } = useParams() as { id: string };
@@ -140,17 +141,32 @@ Configuração: ${property.squareMeters}m², ${property.bedrooms} ${bedroomsLabe
       ? property.images
       : ["/banner.jpg"];
 
+  const mediaItems = [
+    ...images.map((image) => ({
+      type: "image" as const,
+      url: image,
+    })),
+    ...(property.video_url
+      ? [
+          {
+            type: "video" as const,
+            url: property.video_url,
+          },
+        ]
+      : []),
+  ];
+
   return (
     <main className="max-w-7xl mx-auto px-4 xl:px-0 py-10">
       {/* --- Galeria de Imagens --- */}
       <section
         className={`
         grid gap-2 mb-8 rounded-xl overflow-hidden
-        ${images.length === 1 ? "grid-cols-1" : "grid-cols-2 md:grid-cols-4"}
+       ${mediaItems.length === 1 ? "grid-cols-1" : "grid-cols-2 md:grid-cols-4"}
       `}
       >
-        {images.slice(0, 5).map((image, index) => {
-          const total = images.length;
+        {mediaItems.slice(0, 5).map((item, index) => {
+          const total = mediaItems.length;
 
           const dynamicClass = (() => {
             // Mobile
@@ -187,11 +203,21 @@ Configuração: ${property.squareMeters}m², ${property.bedrooms} ${bedroomsLabe
               key={index}
               className={`relative overflow-hidden rounded-lg ${dynamicClass}`}
             >
-              <img
-                src={image}
-                alt={`Imagem ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
+              {item.type === "image" ? (
+                <img
+                  src={item.url}
+                  alt={`Imagem ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <iframe
+                  src={getYoutubeEmbedUrl(item.url)}
+                  title="Vídeo do imóvel"
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              )}
             </div>
           );
         })}
