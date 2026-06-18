@@ -33,15 +33,14 @@ export const storePropertySchema = z.object({
   ),
 
   images: z
-    .custom<FileList>()
-    .transform((files) => (files ? Array.from(files) : []))
+    .array(z.instanceof(File))
     .refine(
       (files) => files.length > 0,
       "É obrigatório enviar pelo menos 1 imagem.",
     )
     .refine(
-      (files) => files.length <= 5,
-      "Você pode enviar no máximo 5 imagens.",
+      (files) => files.length <= 10,
+      "Você pode enviar no máximo 10 imagens.",
     ),
 });
 
@@ -78,11 +77,10 @@ export const updatePropertySchema = z.object({
   ),
 
   images: z
-    .custom<FileList>()
-    .transform((files) => (files ? Array.from(files) : []))
+    .array(z.instanceof(File))
     .refine(
-      (files) => files.length <= 5,
-      "Você pode enviar no máximo 5 imagens.",
+      (files) => files.length <= 10,
+      "Você pode enviar no máximo 10 imagens.",
     )
     .optional(),
 });

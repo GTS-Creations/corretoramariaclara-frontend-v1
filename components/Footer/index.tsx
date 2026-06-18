@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { SiTiktok } from "react-icons/si";
 
 const navigation = [
   { name: "Encontre seu Imóvel", href: "/" },
@@ -55,6 +56,16 @@ export default function Footer() {
                 aria-label="WhatsApp"
               >
                 <FaWhatsapp size={24} />
+              </a>
+
+              <a
+                href="https://www.tiktok.com/@corretoraclara?_r=1&_t=ZS-97JhpNidEvc"
+                className="text-white hover:text-black transition-all duration-300 hover:scale-110"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+              >
+                <SiTiktok size={22} />
               </a>
             </div>
           </div>

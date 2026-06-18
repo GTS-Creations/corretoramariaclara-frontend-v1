@@ -1,5 +1,6 @@
 "use client";
 
+import { Trash2 } from "lucide-react";
 import { Button } from "../../../ui/button";
 import {
   Dialog,
@@ -42,12 +43,17 @@ interface DialogEditCompanyProps {
 type UpdatePropertyFormInput = z.input<typeof updatePropertySchema>;
 type UpdatePropertyFormData = z.output<typeof updatePropertySchema>;
 
+const MAX_UPLOAD_TOTAL_SIZE_MB = 45;
+const MAX_UPLOAD_TOTAL_SIZE_BYTES = MAX_UPLOAD_TOTAL_SIZE_MB * 1024 * 1024;
+
 export default function DialogUpdateProperty({
   id,
   open,
   onOpenChange,
 }: DialogEditCompanyProps) {
   const [selectedPreviews, setSelectedPreviews] = useState<string[]>([]);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(null);
   const queryClient = useQueryClient();
 
   const {
@@ -74,30 +80,50 @@ export default function DialogUpdateProperty({
       description: "",
       video_url: "",
       canFinance: false,
-      images: undefined,
+      images: [],
     },
   });
+
+  const updateImages = (nextImages: File[]) => {
+    setSelectedImages(nextImages);
+    setValue("images", nextImages, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
   const { data, isLoading } = useFindOneProperty({
     id,
     enabled: open,
   });
 
-  const watchedImages = watch("images");
   useEffect(() => {
-    if (watchedImages && watchedImages.length > 0) {
-      const filesArray = Array.from(
-        (watchedImages as unknown as FileList) || [],
-      );
-      const objectUrls = filesArray.map((file) => URL.createObjectURL(file));
+    if (selectedImages.length > 0) {
+      const objectUrls = selectedImages.map((file) => URL.createObjectURL(file));
 
       setSelectedPreviews(objectUrls);
 
       return () => objectUrls.forEach((url) => URL.revokeObjectURL(url));
-    } else {
-      setSelectedPreviews([]);
     }
-  }, [watchedImages]);
+
+    setSelectedPreviews([]);
+  }, [selectedImages]);
+
+  const removeImage = (index: number) => {
+    updateImages(selectedImages.filter((_, currentIndex) => currentIndex !== index));
+  };
+
+  const reorderImages = (fromIndex: number, toIndex: number) => {
+    if (fromIndex === toIndex) {
+      return;
+    }
+
+    const nextImages = [...selectedImages];
+    const [draggedImage] = nextImages.splice(fromIndex, 1);
+    nextImages.splice(toIndex, 0, draggedImage);
+
+    updateImages(nextImages);
+  };
 
   useEffect(() => {
     if (data) {
@@ -114,8 +140,11 @@ export default function DialogUpdateProperty({
         description: data.description || "",
         video_url: data.video_url || "",
         canFinance: data.canFinance || false,
-        images: undefined,
+        images: [],
       });
+
+      setSelectedImages([]);
+      setSelectedPreviews([]);
     }
   }, [data, reset]);
 
@@ -137,13 +166,9 @@ export default function DialogUpdateProperty({
       formData.append("video_url", data.video_url || "");
 
       if (data.images && data.images.length > 0) {
-        if (data.images.length === 1) {
-          formData.append("image", data.images[0]);
-        } else {
-          data.images.forEach((file) => {
-            formData.append("images", file);
-          });
-        }
+        data.images.forEach((file) => {
+          formData.append("images", file);
+        });
       }
 
       return await UpdateProperty(id, formData);
@@ -171,7 +196,18 @@ export default function DialogUpdateProperty({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (!nextOpen) {
+          setSelectedImages([]);
+          setSelectedPreviews([]);
+          reset();
+        }
+
+        onOpenChange(nextOpen);
+      }}
+    >
       <DialogContent className="max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto font-urban">
         <DialogHeader>
           <DialogTitle>Atualizar Imóvel</DialogTitle>
@@ -407,15 +443,47 @@ export default function DialogUpdateProperty({
           </div>
 
           <div className="space-y-2 pt-2">
-            <Label htmlFor="images">Imagens da Propriedade * - Máx. 5</Label>
+            <Label htmlFor="images">Imagens da Propriedade * - Máx. 10</Label>
             <Input
               id="images"
               type="file"
               multiple
               accept="image/*"
-              {...register("images")}
+              onChange={(event) => {
+                const files = Array.from(event.target.files ?? []);
+
+                if (files.length > 0) {
+                  const nextImages = [...selectedImages, ...files];
+
+                  if (nextImages.length > 10) {
+                    toast.error("Você pode enviar no máximo 10 imagens.");
+                    event.target.value = "";
+                    return;
+                  }
+
+                  const totalSize = nextImages.reduce(
+                    (acc, file) => acc + file.size,
+                    0,
+                  );
+
+                  if (totalSize > MAX_UPLOAD_TOTAL_SIZE_BYTES) {
+                    toast.error(
+                      `O total das imagens deve ser no máximo ${MAX_UPLOAD_TOTAL_SIZE_MB}MB.`,
+                    );
+                    event.target.value = "";
+                    return;
+                  }
+
+                  updateImages(nextImages);
+                }
+
+                event.target.value = "";
+              }}
               className="cursor-pointer"
             />
+            <p className="text-xs text-muted-foreground">
+              A primeira imagem da lista será usada como capa do imóvel.
+            </p>
           </div>
 
           <div className="space-y-2">
@@ -426,22 +494,56 @@ export default function DialogUpdateProperty({
                 <p className="text-xs text-amber-600 mb-2">
                   Novas imagens selecionadas (substituirão as atuais ao salvar):
                 </p>
-                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {selectedPreviews.map((url, index) => (
                     <div
-                      key={index}
-                      className="relative aspect-square rounded-md overflow-hidden border bg-muted"
+                      key={`${url}-${index}`}
+                      draggable
+                      onDragStart={(event) => {
+                        setDraggedImageIndex(index);
+                        event.dataTransfer.effectAllowed = "move";
+                        event.dataTransfer.setData("text/plain", String(index));
+                      }}
+                      onDragOver={(event) => event.preventDefault()}
+                      onDrop={() => {
+                        if (draggedImageIndex === null) {
+                          return;
+                        }
+
+                        reorderImages(draggedImageIndex, index);
+                        setDraggedImageIndex(null);
+                      }}
+                      onDragEnd={() => setDraggedImageIndex(null)}
+                      className="rounded-lg border bg-muted/30 p-2 space-y-2 cursor-grab active:cursor-grabbing"
                     >
-                      <img
-                        src={url}
-                        alt={`Nova ${index}`}
-                        className="w-full h-full object-cover"
-                      />
-                      {index === 0 && (
-                        <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-[9px] text-center py-0.5 font-semibold">
-                          Capa
+                      <div className="relative aspect-square overflow-hidden rounded-md border bg-background">
+                        <img
+                          src={url}
+                          alt={`Nova ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        {index === 0 && (
+                          <span className="absolute left-2 top-2 rounded-full bg-black/70 px-2 py-1 text-[10px] font-semibold text-white">
+                            Capa
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs text-muted-foreground">
+                          Posição {index + 1}
                         </span>
-                      )}
+                        <div className="flex items-center gap-1">
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon-sm"
+                            onClick={() => removeImage(index)}
+                            aria-label="Remover imagem"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>

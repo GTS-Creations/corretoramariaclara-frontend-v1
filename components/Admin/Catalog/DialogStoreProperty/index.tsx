@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { Button } from "../../../ui/button";
 import {
   Dialog,
@@ -12,7 +12,7 @@ import {
 } from "../../../ui/dialog";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import z from "zod";
@@ -37,8 +37,13 @@ import { formatCurrency } from "@/utils/format-currency";
 type CreatePropertyFormInput = z.input<typeof storePropertySchema>;
 type CreatePropertyFormData = z.output<typeof storePropertySchema>;
 
+const MAX_UPLOAD_TOTAL_SIZE_MB = 45;
+const MAX_UPLOAD_TOTAL_SIZE_BYTES = MAX_UPLOAD_TOTAL_SIZE_MB * 1024 * 1024;
+
 export default function DialogStoreProperty() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(null);
 
   const queryClient = useQueryClient();
 
@@ -66,9 +71,19 @@ export default function DialogStoreProperty() {
       description: "",
       video_url: "",
       canFinance: false,
-      images: undefined,
+      images: [],
     },
   });
+
+  const selectedImages = watch("images") ?? [];
+
+  useEffect(() => {
+    const objectUrls = selectedImages.map((file) => URL.createObjectURL(file));
+
+    setImagePreviews(objectUrls);
+
+    return () => objectUrls.forEach((url) => URL.revokeObjectURL(url));
+  }, [selectedImages]);
 
   const resetForm = () => {
     reset({
@@ -84,8 +99,51 @@ export default function DialogStoreProperty() {
       description: "",
       video_url: "",
       canFinance: false,
-      images: undefined,
+      images: [],
     });
+  };
+
+  const updateImages = (nextImages: File[]) => {
+    setValue("images", nextImages, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  const handleImageSelection = (files: File[]) => {
+    const nextImages = [...selectedImages, ...files];
+
+    if (nextImages.length > 10) {
+      toast.error("Você pode enviar no máximo 10 imagens.");
+      return;
+    }
+
+    const totalSize = nextImages.reduce((acc, file) => acc + file.size, 0);
+
+    if (totalSize > MAX_UPLOAD_TOTAL_SIZE_BYTES) {
+      toast.error(
+        `O total das imagens deve ser no máximo ${MAX_UPLOAD_TOTAL_SIZE_MB}MB.`,
+      );
+      return;
+    }
+
+    updateImages(nextImages);
+  };
+
+  const removeImage = (index: number) => {
+    updateImages(selectedImages.filter((_, currentIndex) => currentIndex !== index));
+  };
+
+  const reorderImages = (fromIndex: number, toIndex: number) => {
+    if (fromIndex === toIndex) {
+      return;
+    }
+
+    const nextImages = [...selectedImages];
+    const [draggedImage] = nextImages.splice(fromIndex, 1);
+    nextImages.splice(toIndex, 0, draggedImage);
+
+    updateImages(nextImages);
   };
 
   const createMutation = useMutation({
@@ -106,13 +164,9 @@ export default function DialogStoreProperty() {
       formData.append("video_url", data.video_url || "");
 
       if (data.images && data.images.length > 0) {
-        if (data.images.length === 1) {
-          formData.append("image", data.images[0]);
-        } else {
-          data.images.forEach((file) => {
-            formData.append("images", file);
-          });
-        }
+        data.images.forEach((file) => {
+          formData.append("images", file);
+        });
       }
 
       return await StoreProperty(formData);
@@ -388,15 +442,81 @@ export default function DialogStoreProperty() {
           </div>
 
           <div className="space-y-2 pt-2">
-            <Label htmlFor="images">Imagens da Propriedade * - Máx. 5</Label>
+            <Label htmlFor="images">Imagens da Propriedade * - Máx. 10</Label>
             <Input
               id="images"
               type="file"
               multiple
               accept="image/*"
-              {...register("images")}
+              onChange={(event) => {
+                const files = Array.from(event.target.files ?? []);
+
+                if (files.length > 0) {
+                  handleImageSelection(files);
+                }
+
+                event.target.value = "";
+              }}
               className="cursor-pointer"
             />
+            <p className="text-xs text-muted-foreground">
+              A primeira imagem da lista será usada como capa do imóvel.
+            </p>
+            {imagePreviews.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {imagePreviews.map((url, index) => (
+                  <div
+                    key={`${url}-${index}`}
+                    draggable
+                    onDragStart={(event) => {
+                      setDraggedImageIndex(index);
+                      event.dataTransfer.effectAllowed = "move";
+                      event.dataTransfer.setData("text/plain", String(index));
+                    }}
+                    onDragOver={(event) => event.preventDefault()}
+                    onDrop={() => {
+                      if (draggedImageIndex === null) {
+                        return;
+                      }
+
+                      reorderImages(draggedImageIndex, index);
+                      setDraggedImageIndex(null);
+                    }}
+                    onDragEnd={() => setDraggedImageIndex(null)}
+                    className="rounded-lg border bg-muted/30 p-2 space-y-2 cursor-grab active:cursor-grabbing"
+                  >
+                    <div className="relative aspect-square overflow-hidden rounded-md border bg-background">
+                      <img
+                        src={url}
+                        alt={`Prévia ${index + 1}`}
+                        className="h-full w-full object-cover"
+                      />
+                      {index === 0 && (
+                        <span className="absolute left-2 top-2 rounded-full bg-black/70 px-2 py-1 text-[10px] font-semibold text-white">
+                          Capa
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs text-muted-foreground">
+                        Posição {index + 1}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="icon-sm"
+                          onClick={() => removeImage(index)}
+                          aria-label="Remover imagem"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
             {errors.images && (
               <p className="text-sm text-red-500">{errors.images.message}</p>
             )}
