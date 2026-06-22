@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { SiTiktok } from "react-icons/si";
 
 const navigation = [
@@ -66,6 +66,16 @@ export default function Footer() {
                 aria-label="TikTok"
               >
                 <SiTiktok size={22} />
+              </a>
+
+              <a
+                href="https://www.facebook.com/share/1FAVNLEK8A/?mibextid=wwXIfr"
+                className="text-white hover:text-blue-500 transition-all duration-300 hover:scale-110"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <FaFacebookF size={22} />
               </a>
             </div>
           </div>
