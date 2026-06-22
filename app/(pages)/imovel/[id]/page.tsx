@@ -139,7 +139,7 @@ Configuração: ${property.squareMeters}m², ${property.bedrooms} ${bedroomsLabe
   const images =
     property.images && property.images.length > 0
       ? property.images
-      : ["/banner.jpg"];
+      : ["/banner-desktop.png"];
 
   const mediaItems = [
     ...images.map((image) => ({

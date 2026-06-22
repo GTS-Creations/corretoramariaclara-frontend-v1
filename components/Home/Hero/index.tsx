@@ -43,27 +43,15 @@ export default function HomeHero() {
         <div className="relative flex items-center justify-center min-h-125 md:h-125 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <Image
-              src="/banner.jpg"
+              src="/banner-desktop.png"
               alt="Interior de imóvel luxuoso"
               fill
               priority
               className="object-cover object-center"
             />
-
-            <div className="absolute inset-0 bg-black/40 md:bg-black/30" />
           </div>
 
-          <div className="relative z-10 px-6 max-w-5xl w-full flex flex-col items-center pt-20 pb-12">
-            <div className="text-center space-y-4 mb-10">
-              <h1 className="text-4xl md:text-6xl text-shadow-sm font-urban text-white leading-tight">
-                Encontre o seu imóvel perfeito.
-              </h1>
-
-              <p className="text-lg md:text-xl text-white/90 font-cinzel leading-relaxed italic">
-                Buscou, encontrou, se mudou. Sem burocracias.
-              </p>
-            </div>
-
+          <div className="relative z-10 px-6 max-w-5xl w-full flex flex-col items-center pt-20 pb-12 mt-44 md:mt-30">
             <div className="w-full p-3 md:p-4 bg-white rounded-2xl shadow-2xl border border-slate-100">
               <div className="flex flex-col md:flex-row items-end gap-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
