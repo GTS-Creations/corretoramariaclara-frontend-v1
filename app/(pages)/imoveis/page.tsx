@@ -26,12 +26,14 @@ export function PropertiesContent() {
       <div className="mx-auto max-w-7xl px-4 xl:px-0">
         <h1 className="text-3xl font-urban mb-8">
           {purpose === "Venda"
-            ? "Todos à venda"
+            ? "Todos à Venda"
             : purpose === "Aluguel"
-              ? "Todos para aluguel"
-              : type
-                ? `Todos os ${type}s`
-                : "Todos os imóveis"}
+              ? "Todos para Aluguel"
+              : type === "Modelo-Para-Construcao"
+                ? `Todos os Modelos para Construção`
+                : type === "Terreno"
+                  ? `Todos os ${type}s`
+                  : "Todos os imóveis"}
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

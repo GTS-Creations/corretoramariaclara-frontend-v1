@@ -43,7 +43,9 @@ const MAX_UPLOAD_TOTAL_SIZE_BYTES = MAX_UPLOAD_TOTAL_SIZE_MB * 1024 * 1024;
 export default function DialogStoreProperty() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(null);
+  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(
+    null,
+  );
 
   const queryClient = useQueryClient();
 
@@ -131,7 +133,9 @@ export default function DialogStoreProperty() {
   };
 
   const removeImage = (index: number) => {
-    updateImages(selectedImages.filter((_, currentIndex) => currentIndex !== index));
+    updateImages(
+      selectedImages.filter((_, currentIndex) => currentIndex !== index),
+    );
   };
 
   const reorderImages = (fromIndex: number, toIndex: number) => {
@@ -355,6 +359,9 @@ export default function DialogStoreProperty() {
                     </SelectItem>
                     <SelectItem value="Cobertura">Cobertura</SelectItem>
                     <SelectItem value="Kitnet">Kitnet / Loft</SelectItem>
+                    <SelectItem value="Modelo-Para-Construcao">
+                      Modelo para Construção
+                    </SelectItem>
                   </SelectGroup>
 
                   <SelectGroup className="mt-2">

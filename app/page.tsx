@@ -8,6 +8,7 @@ import HomeLands from "@/components/Home/Lands";
 import HomeProperties from "@/components/Home/Sales";
 import HomeRentals from "@/components/Home/Rentals";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import HomeConstruction from "@/components/Home/Construction";
 
 export const metadata: Metadata = {
   title: "Corretora de Imóveis em Arcoverde PE | Maria Clara",
@@ -26,6 +27,7 @@ export default function Home() {
         <HomeHero />
         <HomeRentals />
         <HomeProperties />
+        <HomeConstruction />
         <HomeLands />
         <HomeCTA />
       </main>

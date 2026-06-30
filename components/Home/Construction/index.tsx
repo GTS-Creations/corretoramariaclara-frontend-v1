@@ -13,10 +13,10 @@ import Autoplay from "embla-carousel-autoplay";
 import { IProperty } from "@/interfaces/property";
 import { useFindAllProperties } from "@/hooks/usePropertyQuery";
 
-export default function HomeLands() {
+export default function HomeConstruction() {
   const page = 1;
   const limit = 4;
-  const type = "Terreno";
+  const type = "Modelo-Para-Construcao";
 
   const { data, isLoading } = useFindAllProperties({
     page,
@@ -30,10 +30,10 @@ export default function HomeLands() {
     <section className="py-10">
       <div className="mx-auto max-w-7xl px-4 xl:px-0">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-urban">Terrenos para Venda</h2>
+          <h2 className="text-2xl font-urban">Modelos para Construção</h2>
 
           <Link
-            href="/imoveis?type=Terreno"
+            href="/imoveis?type=Modelo-Para-Construcao"
             className="flex items-center gap-1 text-sm font-cinzel border-clara-secondary border px-4 py-2 rounded text-clara-secondary hover:border-clara-tertiary hover:text-clara-tertiary transition-colors"
           >
             Ver todos

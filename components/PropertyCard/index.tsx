@@ -32,7 +32,7 @@ export default function PropertyCard({
 
       <div className="p-4">
         <span className="text-sm text-muted-foreground font-urban wrap-break-word">
-          {name} - {type}
+          {name} - {purpose}
         </span>
 
         <p className="text-xl font-bold font-urban mt-1">
@@ -63,7 +63,7 @@ export default function PropertyCard({
 
         <p className="text-sm text-muted-foreground mt-3 line-clamp-1 font-urban flex wrap-break-word">
           <MapPin className="h-4 w-4" />
-          {location} - {purpose}
+          {location} - {type}
         </p>
       </div>
     </div>

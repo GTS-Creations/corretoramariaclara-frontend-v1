@@ -30,7 +30,7 @@ export default function HomeRentals() {
     <section className="py-10">
       <div className="mx-auto max-w-7xl px-4 xl:px-0">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-urban">Aluguéis em destaque</h2>
+          <h2 className="text-2xl font-urban">Imóveis para Locação</h2>
 
           <Link
             href="/imoveis?purpose=Aluguel"

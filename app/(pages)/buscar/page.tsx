@@ -121,6 +121,9 @@ export function SearchContent() {
                       </SelectItem>
                       <SelectItem value="Cobertura">Cobertura</SelectItem>
                       <SelectItem value="Kitnet">Kitnet / Loft</SelectItem>
+                      <SelectItem value="Modelo-Para-Construcao">
+                        Modelos para Construção
+                      </SelectItem>
                     </SelectGroup>
 
                     <SelectGroup className="mt-2">

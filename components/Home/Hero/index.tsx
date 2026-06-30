@@ -49,12 +49,12 @@ export default function HomeHero() {
               className="object-cover md:hidden"
             />
 
-            <div className="flex md:hidden absolute inset-0 items-center justify-center -translate-y-56 -translate-x-32 z-10">
+            <div className="flex md:hidden absolute inset-0 items-center justify-center -translate-y-48 -translate-x-20 z-10">
               <Image
                 src="/logo-banner.png"
                 alt="Logo Maria Clara"
-                width={200}
-                height={180}
+                width={150}
+                height={150}
                 priority
                 className="object-contain"
               />
@@ -129,6 +129,9 @@ export default function HomeHero() {
                           </SelectItem>
                           <SelectItem value="Cobertura">Cobertura</SelectItem>
                           <SelectItem value="Kitnet">Kitnet / Loft</SelectItem>
+                          <SelectItem value="Modelo-Para-Construcao">
+                            Modelos para Construção
+                          </SelectItem>
                         </SelectGroup>
 
                         <SelectGroup className="mt-2">

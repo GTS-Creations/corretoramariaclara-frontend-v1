@@ -53,7 +53,9 @@ export default function DialogUpdateProperty({
 }: DialogEditCompanyProps) {
   const [selectedPreviews, setSelectedPreviews] = useState<string[]>([]);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
-  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(null);
+  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(
+    null,
+  );
   const queryClient = useQueryClient();
 
   const {
@@ -99,7 +101,9 @@ export default function DialogUpdateProperty({
 
   useEffect(() => {
     if (selectedImages.length > 0) {
-      const objectUrls = selectedImages.map((file) => URL.createObjectURL(file));
+      const objectUrls = selectedImages.map((file) =>
+        URL.createObjectURL(file),
+      );
 
       setSelectedPreviews(objectUrls);
 
@@ -110,7 +114,9 @@ export default function DialogUpdateProperty({
   }, [selectedImages]);
 
   const removeImage = (index: number) => {
-    updateImages(selectedImages.filter((_, currentIndex) => currentIndex !== index));
+    updateImages(
+      selectedImages.filter((_, currentIndex) => currentIndex !== index),
+    );
   };
 
   const reorderImages = (fromIndex: number, toIndex: number) => {
@@ -356,6 +362,9 @@ export default function DialogUpdateProperty({
                     </SelectItem>
                     <SelectItem value="Cobertura">Cobertura</SelectItem>
                     <SelectItem value="Kitnet">Kitnet / Loft</SelectItem>
+                    <SelectItem value="Modelo-Para-Construcao">
+                      Modelo para Construção
+                    </SelectItem>
                   </SelectGroup>
 
                   <SelectGroup className="mt-2">
