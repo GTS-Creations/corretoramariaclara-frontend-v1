@@ -41,17 +41,45 @@ export default function HomeHero() {
     <section className="w-full bg-white mx-auto">
       <div className="relative w-full shadow-lg transition-shadow rounded-b-md">
         <div className="relative flex items-center justify-center min-h-125 md:h-125 overflow-hidden">
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0">
+            <Image
+              src="/banner-mobile.png"
+              alt="Banner Mobile"
+              fill
+              className="object-cover md:hidden"
+            />
+
+            <div className="flex md:hidden absolute inset-0 items-center justify-center -translate-y-56 -translate-x-32 z-10">
+              <Image
+                src="/logo-banner.png"
+                alt="Logo Maria Clara"
+                width={200}
+                height={180}
+                priority
+                className="object-contain"
+              />
+            </div>
+
             <Image
               src="/banner-desktop.png"
-              alt="Interior de imóvel luxuoso"
+              alt="Banner Desktop"
               fill
-              priority
-              className="object-cover object-center"
+              className="hidden md:block object-cover"
             />
+
+            <div className="hidden md:flex absolute inset-0 items-center justify-center -translate-y-28 z-10">
+              <Image
+                src="/logo-banner.png"
+                alt="Logo Maria Clara"
+                width={450}
+                height={180}
+                priority
+                className="object-contain"
+              />
+            </div>
           </div>
 
-          <div className="relative z-10 px-6 max-w-5xl w-full flex flex-col items-center pt-20 pb-12 mt-44 md:mt-30">
+          <div className="relative z-10 px-6 max-w-5xl w-full flex flex-col items-center pt-20 pb-12 mt-48 md:mt-30">
             <div className="w-full p-3 md:p-4 bg-white rounded-2xl shadow-2xl border border-slate-100">
               <div className="flex flex-col md:flex-row items-end gap-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
