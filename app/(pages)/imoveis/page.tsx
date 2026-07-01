@@ -33,59 +33,67 @@ export function PropertiesContent() {
                 ? `Todos os Modelos para Construção`
                 : type === "Terreno"
                   ? `Todos os ${type}s`
-                  : "Todos os imóveis"}
+                  : "Todos os resultados"}
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {isLoading
-            ? Array.from({ length: 10 }).map((_, index) => (
-                <div
-                  key={index}
-                  className="basis-1/1 md:basis-1/2 lg:basis-1/4 overflow-hidden rounded-md border border-border bg-card"
-                >
-                  <div className="group">
-                    <div className="relative aspect-4/3 overflow-hidden bg-muted">
-                      <Skeleton className="h-full w-full rounded-none" />
+          {isLoading ? (
+            Array.from({ length: 10 }).map((_, index) => (
+              <div
+                key={index}
+                className="basis-1/1 md:basis-1/2 lg:basis-1/4 overflow-hidden rounded-md border border-border bg-card"
+              >
+                <div className="group">
+                  <div className="relative aspect-4/3 overflow-hidden bg-muted">
+                    <Skeleton className="h-full w-full rounded-none" />
+                  </div>
+
+                  <div className="p-4">
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-28" />
+                      <Skeleton className="h-7 w-40" />
                     </div>
 
-                    <div className="p-4">
-                      <div className="space-y-2">
-                        <Skeleton className="h-4 w-28" />
-                        <Skeleton className="h-7 w-40" />
+                    <div className="flex flex-wrap gap-4 mt-4">
+                      <div className="flex items-center gap-1">
+                        <Skeleton className="h-4 w-4 rounded-full" />
+                        <Skeleton className="h-4 w-6" />
                       </div>
 
-                      <div className="flex flex-wrap gap-4 mt-4">
-                        <div className="flex items-center gap-1">
-                          <Skeleton className="h-4 w-4 rounded-full" />
-                          <Skeleton className="h-4 w-6" />
-                        </div>
-
-                        <div className="flex items-center gap-1">
-                          <Skeleton className="h-4 w-4 rounded-full" />
-                          <Skeleton className="h-4 w-6" />
-                        </div>
-
-                        <div className="flex items-center gap-1">
-                          <Skeleton className="h-4 w-4 rounded-full" />
-                          <Skeleton className="h-4 w-6" />
-                        </div>
-
-                        <div className="flex items-center gap-1">
-                          <Skeleton className="h-4 w-4 rounded-full" />
-                          <Skeleton className="h-4 w-10" />
-                        </div>
+                      <div className="flex items-center gap-1">
+                        <Skeleton className="h-4 w-4 rounded-full" />
+                        <Skeleton className="h-4 w-6" />
                       </div>
 
-                      <Skeleton className="h-4 w-3/4 mt-4" />
+                      <div className="flex items-center gap-1">
+                        <Skeleton className="h-4 w-4 rounded-full" />
+                        <Skeleton className="h-4 w-6" />
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        <Skeleton className="h-4 w-4 rounded-full" />
+                        <Skeleton className="h-4 w-10" />
+                      </div>
                     </div>
+
+                    <Skeleton className="h-4 w-3/4 mt-4" />
                   </div>
                 </div>
-              ))
-            : properties.map((property, index) => (
-                <Link href={`/imovel/${property.id}`} key={index}>
-                  <PropertyCard {...property} />
-                </Link>
-              ))}
+              </div>
+            ))
+          ) : properties.length > 0 ? (
+            properties.map((property, index) => (
+              <Link href={`/imovel/${property.id}`} key={index}>
+                <PropertyCard {...property} />
+              </Link>
+            ))
+          ) : (
+            <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
+              <h3 className="text-2xl font-urban text-slate-700">
+                Nenhum item encontrado.
+              </h3>
+            </div>
+          )}
         </div>
       </div>
     </section>

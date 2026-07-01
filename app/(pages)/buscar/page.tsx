@@ -213,12 +213,12 @@ export function SearchContent() {
           ) : (
             <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
               <h3 className="text-2xl font-urban text-slate-700">
-                Nenhum imóvel encontrado
+                Nenhum resultado encontrado.
               </h3>
 
               <p className="text-slate-500 mt-2 max-w-md font-urban">
-                Não encontramos imóveis com os filtros selecionados. Tente
-                ajustar sua busca.
+                Não encontramos itens com os filtros selecionados. Tente ajustar
+                sua busca.
               </p>
             </div>
           )}
