@@ -128,6 +128,7 @@ export default function HomeHero() {
                             Casa em Condomínio
                           </SelectItem>
                           <SelectItem value="Cobertura">Cobertura</SelectItem>
+                          <SelectItem value="Duplex">Duplex</SelectItem>
                           <SelectItem value="Kitnet">Kitnet / Loft</SelectItem>
                           <SelectItem value="Modelo-Para-Construcao">
                             Modelos para Construção

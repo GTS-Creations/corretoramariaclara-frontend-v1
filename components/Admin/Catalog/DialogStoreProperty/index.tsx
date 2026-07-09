@@ -362,6 +362,7 @@ export default function DialogStoreProperty() {
                       Casa em Condomínio
                     </SelectItem>
                     <SelectItem value="Cobertura">Cobertura</SelectItem>
+                    <SelectItem value="Duplex">Duplex</SelectItem>
                     <SelectItem value="Kitnet">Kitnet / Loft</SelectItem>
                     <SelectItem value="Modelo-Para-Construcao">
                       Modelo para Construção

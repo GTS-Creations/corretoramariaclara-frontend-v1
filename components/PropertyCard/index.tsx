@@ -10,6 +10,7 @@ const propertyTypeLabels: Record<string, string> = {
   Apartamento: "Apartamento",
   "Casa-Condominio": "Casa em Condomínio",
   Cobertura: "Cobertura",
+  Duplex: "Duplex",
   Kitnet: "Kitnet / Loft",
   "Modelo-Para-Construcao": "Modelo para Construção",
   "Sala-Comercial": "Sala Comercial",
